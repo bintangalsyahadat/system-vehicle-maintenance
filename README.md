@@ -1,58 +1,130 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
-
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <img src="public/favicon.svg" width="90" height="90" alt="SERVISA Logo">
 </p>
 
-## About Laravel
+<h1 align="center">SERVISA (Smart Personal Vehicle Maintenance)</h1>
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+<p align="center">
+  <strong>Web App Manajemen Perawatan Kendaraan Cerdas & Diagnosa Berbasis AI</strong><br>
+</p>
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+<p align="center">
+  <img src="https://img.shields.io/badge/Laravel-11.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel">
+  <img src="https://img.shields.io/badge/TailwindCSS-3.x-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS">
+  <img src="https://img.shields.io/badge/Alpine.js-3.x-8BC0D0?style=for-the-badge&logo=alpine.js&logoColor=black" alt="Alpine.js">
+  <img src="https://img.shields.io/badge/Google_Gemini-Vision_AI-8E75B2?style=for-the-badge&logo=google-gemini&logoColor=white" alt="Gemini AI">
+  <img src="https://img.shields.io/badge/MySQL-8.0-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL">
+</p>
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## 📌 Tentang Proyek
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+**SERVISA** adalah platform cerdas pemeliharaan kendaraan roda dua pribadi yang memecahkan masalah kebiasaan lalai servis (*service neglect*). Berbeda dari sekadar aplikasi pencatat nota servis statis, SERVISA mengusung 4 inovasi utama:
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+1. **Smart Odometer Real-Time Decay Engine**: Mengestimasi kenaikan angka kilometer harian otomatis berdasarkan *daily average usage*, sehingga peringatan servis selalu relevan tanpa harus memasukkan kilometer setiap hari.
+2. **AI Vision Speedometer Scanner**: Memanfaatkan **Google Gemini Vision API** untuk mengekstrak angka odometer secara langsung dari foto dashboard/speedometer motor serta mengenali lampu indikator *Malfunction Indicator Lamp* (MIL).
+3. **Kalkulator Kerugian (*Cost of Neglect*)**: Edukasi interaktif berbasis data finansial yang membandingkan biaya servis preventif berkala vs efek domino pembengkakan biaya akibat kerusakan fatal (Mendukung **SDG 12: Konsumsi dan Produksi yang Bertanggung Jawab**).
+4. **Buku Paspor Servis Terverifikasi & Ekspor PDF**: Riwayat digital lengkap perawatan kendaraan yang dapat dicetak resmi sebagai bukti riwayat servis saat kendaraan hendak dijual kembali, menjaga *resale value* motor tetap tinggi.
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+---
 
-## Agentic Development
+## 🛠️ Persyaratan Sistem (Prerequisites)
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+- **PHP**: `^8.2`
+- **Composer**: `^2.x`
+- **Node.js**: `^18.x` atau `^20.x` & `npm`
+- **Database**: MySQL / MariaDB
 
+---
+
+## 🚀 Panduan Instalasi Lokal
+
+Ikuti langkah-langkah berikut untuk menjalankan SERVISA di komputer lokal:
+
+### 1. Clone Repositori
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+git clone https://github.com/bintangalsyahadat/system-vehicle-maintenance.git
+cd system-vehicle-maintenance
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+### 2. Install Dependensi PHP & JavaScript
+```bash
+composer install
+npm install
+```
 
-## Contributing
+### 3. Konfigurasi Environment (`.env`)
+Salin file environment contoh:
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Buka file `.env` dan sesuaikan koneksi database MySQL:
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=servisa_db
+DB_USERNAME=root
+DB_PASSWORD=
 
-## Code of Conduct
+# Gemini Vision API Key (untuk Menu 2)
+GEMINI_API_KEY=your_gemini_api_key_here
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 4. Migrasi & Seeder Database
+Jalankan migrasi untuk membuat 6 tabel relasional inti beserta data demo bawaan pabrik:
+```bash
+php artisan migrate:fresh --seed
+```
 
-## Security Vulnerabilities
+> **Akun Demo Bawaan:**
+> - Email: `demo@servisa.com`
+> - Password: `password123`
+> - Kendaraan: *Honda Vario 160 ABS (2023)* lengkap dengan 5 part vital pabrikan (Oli Mesin, Oli Gardan, Busi, Kampas Rem, V-Belt).
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 5. Build Aset Frontend
+```bash
+npm run build
+# atau untuk mode live preview:
+npm run dev
+```
 
-## License
+### 6. Jalankan Server Lokal
+```bash
+php artisan serve
+```
+Akses aplikasi melalui browser di: `http://localhost:8000`
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+
+## 🌿 Alur Git Workflow Tim
+
+Workflow disederhanakan agar proses pengembangan cepat dan efisien tanpa branch `dev`:
+
+1. Selalu tarik kode terbaru dari branch `main`:
+   ```bash
+   git checkout main
+   git pull origin main
+   ```
+2. Buat branch fitur baru langsung dari `main`:
+   ```bash
+   git checkout -b feat/menu-X-nama-fitur
+   ```
+3. Lakukan commit dengan standar prefix tag repositori:
+   - `[ADD]` : Menambah fitur baru, file baru, model/controller baru.
+   - `[IMP]` : Perbaikan tampilan UI/UX, optimalisasi styling.
+   - `[FIX]` : Perbaikan bug.
+   - `[DOC]` : Pembaruan dokumentasi.
+4. Push branch fitur Anda dan buat Pull Request (PR) ke `main`:
+   ```bash
+   git push -u origin feat/menu-X-nama-fitur
+   ```
+   *(Catatan: Dilarang push langsung ke branch `main`)*
+
+---
+
+## 📄 Lisensi
+Proyek ini dikembangkan secara open-source di bawah lisensi [MIT License](LICENSE).
