@@ -1,3 +1,36 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    /* Theme Pink (Default) */
+    :root, html.theme-pink {
+        --color-brand-main: 184 58 116; /* #B83A74 */
+        --color-brand-secondary: 245 219 232; /* #F5DBE8 */
+        --color-brand-third: 232 121 168; /* #E879A8 */
+        --color-brand-dark: 141 36 85; /* #8D2455 */
+        --color-brand-light: 253 247 250; /* #FDF7FA */
+    }
+
+    /* Theme Blue (Royal Navy) */
+    html.theme-blue {
+        --color-brand-main: 11 42 120; /* #0B2A78 */
+        --color-brand-secondary: 211 226 255; /* #D3E2FF */
+        --color-brand-third: 29 95 224; /* #1D5FE0 */
+        --color-brand-dark: 7 28 82; /* #071C52 */
+        --color-brand-light: 240 245 255; /* #F0F5FF */
+    }
+
+    /* Dark Mode Accent Adaptations */
+    html.dark.theme-pink {
+        --color-brand-sidebar: 24 17 30; /* #18111E */
+        --color-brand-active: 184 58 116; /* #B83A74 */
+        --color-brand-accent: 232 121 168; /* #E879A8 */
+    }
+
+    html.dark.theme-blue {
+        --color-brand-sidebar: 7 19 41; /* #071329 */
+        --color-brand-active: 29 95 224; /* #1D5FE0 */
+        --color-brand-accent: 96 165 250; /* #60A5FA */
+    }
+}
