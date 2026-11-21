@@ -10,9 +10,10 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
+// Landing Page Publik (Bisa diakses tanpa login)
 Route::get('/', function () {
-    return redirect()->route('dashboard');
-});
+    return view('welcome');
+})->name('home');
 
 // 4 Menu Utama SERVISA (Protected by Auth)
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -36,9 +37,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('pages.history');
     })->name('history');
 
-    // Fitur Kelola Kendaraan (Switch & Tambah Baru)
+    // Fitur Kelola Garasi Kendaraan (Index, Switch, Tambah Baru, Update, Kalibrasi, Hapus)
+    Route::get('/garasi', [VehicleController::class, 'index'])->name('garage');
     Route::post('/vehicles', [VehicleController::class, 'store'])->name('vehicles.store');
     Route::post('/vehicles/{vehicle}/switch', [VehicleController::class, 'switchVehicle'])->name('vehicles.switch');
+    Route::put('/vehicles/{vehicle}', [VehicleController::class, 'update'])->name('vehicles.update');
+    Route::put('/vehicles/{vehicle}/recalibrate', [VehicleController::class, 'recalibrate'])->name('vehicles.recalibrate');
+    Route::delete('/vehicles/{vehicle}', [VehicleController::class, 'destroy'])->name('vehicles.destroy');
 
     // Fitur Profil & Garasi Kendaraan (Breeze Default Extended)
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

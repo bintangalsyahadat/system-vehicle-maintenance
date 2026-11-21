@@ -82,11 +82,11 @@
                 <span>Diagnosa</span>
             </a>
 
-            <!-- 4. Riwayat -->
-            <a href="{{ route('history') }}" 
-               class="flex items-center px-4 py-3 rounded-2xl font-bold text-sm transition-all duration-200 {{ request()->routeIs('history') ? 'bg-white dark:bg-brand-active text-brand-main dark:text-white shadow-md shadow-black/5' : 'text-brand-secondary dark:text-slate-300 hover:bg-white/10 hover:text-white' }}">
-                <i data-lucide="clipboard-list" class="w-5 h-5 mr-3"></i>
-                <span>Riwayat</span>
+            <!-- 4. Garasi Kendaraan -->
+            <a href="{{ route('garage') }}" 
+               class="flex items-center px-4 py-3 rounded-2xl font-bold text-sm transition-all duration-200 {{ request()->routeIs('garage') ? 'bg-white dark:bg-brand-active text-brand-main dark:text-white shadow-md shadow-black/5' : 'text-brand-secondary dark:text-slate-300 hover:bg-white/10 hover:text-white' }}">
+                <i data-lucide="bike" class="w-5 h-5 mr-3"></i>
+                <span>Garasi Kendaraan</span>
             </a>
         </nav>
 
@@ -130,7 +130,7 @@
                     <button @click="open = !open" 
                             class="flex items-center space-x-1.5 sm:space-x-2 bg-white dark:bg-[#1E293B] hover:bg-slate-50 dark:hover:bg-slate-800 transition px-3 py-2 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm text-xs font-semibold text-slate-700 dark:text-slate-200">
                         <i data-lucide="bike" class="w-4 h-4 text-brand-main dark:text-brand-accent flex-shrink-0"></i>
-                        <span class="truncate max-w-[110px] sm:max-w-[160px]">{{ $activeVehicle ? $activeVehicle->model_name : 'Pilih Motor' }}</span>
+                        <span class="truncate max-w-[110px] sm:max-w-[160px]">{{ $activeVehicle ? $activeVehicle->model_name : 'Pilih Kendaraan' }}</span>
                         <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400 flex-shrink-0"></i>
                     </button>
 
@@ -213,8 +213,8 @@
                          x-cloak 
                          class="absolute right-0 mt-2 w-52 bg-white dark:bg-[#1E293B] rounded-2xl shadow-xl border border-slate-100 dark:border-slate-700 py-2 z-50">
                         <a href="{{ route('profile.edit') }}" class="flex items-center px-4 py-2 text-xs font-medium text-slate-700 dark:text-slate-200 hover:bg-brand-light dark:hover:bg-slate-800 hover:text-brand-main transition">
-                            <i data-lucide="user" class="w-4 h-4 mr-2"></i>
-                            Profil & Garasi
+                            <i data-lucide="user" class="w-4 h-4 mr-2 text-slate-400"></i>
+                            Profil
                         </a>
                         
                         <div class="border-t border-slate-100 dark:border-slate-700 my-1.5"></div>
@@ -285,10 +285,10 @@
             <span class="text-[10px] mt-0.5">Diagnosa</span>
         </a>
 
-        <a href="{{ route('history') }}" 
-           class="flex flex-col items-center py-1 {{ request()->routeIs('history') ? 'text-brand-main dark:text-brand-accent font-bold' : 'text-slate-400 dark:text-slate-500' }}">
-            <i data-lucide="clipboard-list" class="w-5 h-5"></i>
-            <span class="text-[10px] mt-0.5">Riwayat</span>
+        <a href="{{ route('garage') }}" 
+           class="flex flex-col items-center py-1 {{ request()->routeIs('garage') ? 'text-brand-main dark:text-brand-accent font-bold' : 'text-slate-400 dark:text-slate-500' }}">
+            <i data-lucide="bike" class="w-5 h-5"></i>
+            <span class="text-[10px] mt-0.5">Garasi</span>
         </a>
     </nav>
 
@@ -311,7 +311,7 @@
                 </button>
             </div>
 
-            <!-- Form Tambah Motor -->
+            <!-- Form Tambah Kendaraan -->
             <form action="{{ route('vehicles.store') }}" method="POST" class="space-y-3 text-left">
                 @csrf
                 <div>
@@ -321,7 +321,7 @@
                 </div>
 
                 <div>
-                    <label class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">Model / Nama Motor</label>
+                    <label class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">Model / Nama Kendaraan</label>
                     <input type="text" name="model_name" placeholder="Misal: Vario 160, NMAX 155" required
                            class="w-full text-xs rounded-xl border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:border-brand-main focus:ring focus:ring-brand-main/20 py-2 px-3">
                 </div>
@@ -359,7 +359,7 @@
                     </button>
                     <button type="submit" 
                             class="w-1/2 py-2.5 rounded-xl bg-brand-main hover:bg-brand-dark text-xs font-bold text-white transition shadow-md shadow-brand-main/30">
-                        Simpan Motor
+                        Simpan Kendaraan
                     </button>
                 </div>
             </form>
