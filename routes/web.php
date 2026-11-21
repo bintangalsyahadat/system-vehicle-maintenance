@@ -10,9 +10,7 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
-Route::get('/', function () {
-    return redirect()->route('dashboard');
-});
+Route::get('/');
 
 // 4 Menu Utama SERVISA (Protected by Auth)
 Route::middleware(['auth', 'verified'])->group(function () {
