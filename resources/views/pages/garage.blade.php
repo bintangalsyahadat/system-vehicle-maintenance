@@ -237,9 +237,9 @@
                     <span class="text-[11px] text-slate-400">Tahun: {{ $vehicle->manufacture_year ?: '-' }}</span>
                     <div class="flex items-center space-x-1.5">
                         <!-- Button Lihat Riwayat Servis -->
-                        <a href="{{ route('history') }}" 
+                        <a href="{{ route('history', ['vehicle_id' => $vehicle->id]) }}" 
                            class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-brand-secondary/40 dark:bg-slate-800 hover:bg-brand-secondary/70 dark:hover:bg-slate-700 text-brand-main dark:text-brand-accent text-xs font-bold transition"
-                           title="Lihat Riwayat Servis">
+                           title="Lihat Riwayat Servis {{ $vehicle->model_name }}">
                             <i data-lucide="clipboard-list" class="w-3.5 h-3.5"></i>
                             <span class="text-[11px]">Riwayat</span>
                         </a>

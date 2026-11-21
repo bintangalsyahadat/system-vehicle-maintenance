@@ -82,9 +82,9 @@
                 <span>Diagnosa</span>
             </a>
 
-            <!-- 4. Garasi Kendaraan -->
+            <!-- 4. Garasi Kendaraan (tetap aktif jika di halaman riwayat / history) -->
             <a href="{{ route('garage') }}" 
-               class="flex items-center px-4 py-3 rounded-2xl font-bold text-sm transition-all duration-200 {{ request()->routeIs('garage') ? 'bg-white dark:bg-brand-active text-brand-main dark:text-white shadow-md shadow-black/5' : 'text-brand-secondary dark:text-slate-300 hover:bg-white/10 hover:text-white' }}">
+               class="flex items-center px-4 py-3 rounded-2xl font-bold text-sm transition-all duration-200 {{ request()->routeIs('garage', 'history*') ? 'bg-white dark:bg-brand-active text-brand-main dark:text-white shadow-md shadow-black/5' : 'text-brand-secondary dark:text-slate-300 hover:bg-white/10 hover:text-white' }}">
                 <i data-lucide="bike" class="w-5 h-5 mr-3"></i>
                 <span>Garasi Kendaraan</span>
             </a>
@@ -286,7 +286,7 @@
         </a>
 
         <a href="{{ route('garage') }}" 
-           class="flex flex-col items-center py-1 {{ request()->routeIs('garage') ? 'text-brand-main dark:text-brand-accent font-bold' : 'text-slate-400 dark:text-slate-500' }}">
+           class="flex flex-col items-center py-1 {{ request()->routeIs('garage', 'history*') ? 'text-brand-main dark:text-brand-accent font-bold' : 'text-slate-400 dark:text-slate-500' }}">
             <i data-lucide="bike" class="w-5 h-5"></i>
             <span class="text-[10px] mt-0.5">Garasi</span>
         </a>
