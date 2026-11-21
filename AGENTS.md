@@ -142,5 +142,6 @@ Repositori ini menggunakan prefix tag commit yang konsisten.
 1. **Dilarang keras mengubah konfigurasi skema tabel inti** (`users`, `vehicles`, `maintenance_items`, `service_reminders`, `service_logs`, `ai_scan_histories`) tanpa kesepakatan tim.
 2. **Dilarang mematikan atau membypass Dark Mode & Dual Theme system**. Semua komponen baru wajib menyertakan styling `dark:...` dan menggunakan token kelas `brand`.
 3. **Dilarang menulis CSS inline (`style="..."`)** untuk warna utama, gunakan selalu utilitas Tailwind.
-4. **Gunakan route berpenamaan (named routes)** pada Blade view: `route('dashboard')`, `route('calculator')`, `route('diagnosa')`, `route('history')`.
-5. **Dilarang push langsung ke `main`**. Semua pekerjaan harus melalui branch fitur $\rightarrow$ buat Pull Request (PR) ke `main`.
+4. **Dilarang menggunakan dialog/pop-up bawaan browser (`alert()`, `confirm()`, `prompt()`)**. Semua dialog konfirmasi, peringatan, atau input wajib menggunakan modal/pop-up kustom (Alpine.js / Tailwind) agar UI/UX konsisten, modern, dan rapi.
+5. **Gunakan route berpenamaan (named routes)** pada Blade view: `route('dashboard')`, `route('calculator')`, `route('diagnosa')`, `route('garage')`.
+6. **Dilarang push langsung ke `main`**. Semua pekerjaan harus melalui branch fitur $\rightarrow$ buat Pull Request (PR) ke `main`.
