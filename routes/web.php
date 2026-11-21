@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VehicleController;
 use Illuminate\Support\Facades\Route;
@@ -33,9 +34,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('diagnosa');
 
     // Menu 4: Riwayat & Paspor PDF (Dev 4)
-    Route::get('/riwayat', function () {
-        return view('pages.history');
-    })->name('history');
+    Route::get('/riwayat', [HistoryController::class, 'index'])->name('history');
+    Route::post('/riwayat/service-logs', [HistoryController::class, 'storeLog'])->name('history.storeLog');
+    Route::patch('/riwayat/ai-scans/{aiScan}/resolve', [HistoryController::class, 'resolveAiScan'])->name('history.resolveAiScan');
+    Route::get('/vehicles/{vehicle}/passport', [HistoryController::class, 'printPassport'])->name('history.passport');
 
     // Fitur Kelola Garasi Kendaraan (Index, Switch, Tambah Baru, Update, Kalibrasi, Hapus)
     Route::get('/garasi', [VehicleController::class, 'index'])->name('garage');
