@@ -224,9 +224,13 @@
             @forelse($aiScans as $scan)
                 <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-5 sm:p-6 border border-slate-100 dark:border-slate-800 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all">
                     <div class="flex items-start space-x-4">
-                        <div class="w-12 h-12 rounded-2xl {{ $scan->severity_level === 'CRITICAL' ? 'bg-rose-50 dark:bg-rose-950/40 text-rose-500' : 'bg-amber-50 dark:bg-amber-950/40 text-amber-500' }} flex items-center justify-center flex-shrink-0 mt-0.5">
-                            <i data-lucide="alert-triangle" class="w-5 h-5"></i>
-                        </div>
+                        @if($scan->image_url)
+                            <img src="{{ $scan->image_url }}" alt="Foto Scan" class="w-14 h-14 rounded-2xl object-cover border border-slate-200 dark:border-slate-700 flex-shrink-0 bg-slate-900 mt-0.5">
+                        @else
+                            <div class="w-12 h-12 rounded-2xl {{ $scan->severity_level === 'CRITICAL' ? 'bg-rose-50 dark:bg-rose-950/40 text-rose-500' : 'bg-amber-50 dark:bg-amber-950/40 text-amber-500' }} flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+                            </div>
+                        @endif
                         <div class="space-y-1">
                             <div class="flex items-center space-x-2">
                                 <h3 class="font-extrabold text-slate-800 dark:text-white text-base">

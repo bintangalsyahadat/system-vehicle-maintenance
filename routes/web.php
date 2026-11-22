@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DiagnosaController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VehicleController;
@@ -29,9 +30,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('calculator');
 
     // Menu 3: Diagnosa AI (Dev 2)
-    Route::get('/diagnosa', function () {
-        return view('pages.diagnosa');
-    })->name('diagnosa');
+    Route::get('/diagnosa', [DiagnosaController::class, 'index'])->name('diagnosa');
+    Route::post('/diagnosa/analyze', [DiagnosaController::class, 'analyze'])->name('diagnosa.analyze');
+    Route::post('/vehicles/{vehicle}/sync-odometer', [DiagnosaController::class, 'syncOdometer'])->name('vehicles.syncOdometer');
 
     // Menu 4: Riwayat & Paspor PDF (Dev 4)
     Route::get('/riwayat', [HistoryController::class, 'index'])->name('history');
