@@ -107,7 +107,7 @@
                     <h1 class="text-xl lg:text-2xl font-bold text-slate-800 dark:text-white">
                         @yield('greeting', 'Selamat datang, ' . (Auth::user() ? explode(' ', Auth::user()->name)[0] : 'Rider') . '!')
                     </h1>
-                    <p class="text-xs text-slate-500 dark:text-slate-400 font-medium">Kendaraan sehat, perjalanan lebih tenang.</p>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 font-medium">@yield('page_description', 'Kendaraan sehat, perjalanan lebih tenang.')</p>
                 </div>
 
                 <!-- Logo Mobile/Tablet Only -->

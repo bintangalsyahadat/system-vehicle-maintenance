@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CalculatorController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiagnosaController;
 use App\Http\Controllers\HistoryController;
@@ -26,9 +27,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/dashboard/quick-service', [DashboardController::class, 'quickService'])->name('dashboard.quickService');
 
     // Menu 2: Kalkulator Kerugian (Dev 3)
-    Route::get('/kalkulator', function () {
-        return view('pages.calculator');
-    })->name('calculator');
+    Route::get('/kalkulator', [CalculatorController::class, 'index'])->name('calculator');
 
     // Menu 3: Diagnosa AI (Dev 2)
     Route::get('/diagnosa', [DiagnosaController::class, 'index'])->name('diagnosa');
