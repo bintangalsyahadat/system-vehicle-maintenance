@@ -79,18 +79,13 @@ class DashboardController extends Controller
                 default => 'wrench',
             };
 
-            // Mapping status danger, warning, safe
+            // Gunakan status murni dari Vehicle Model (>40% safe, 15-40% warning, <15% danger)
             $statusKey = $part->status; // 'danger', 'warning', 'safe'
-            if ($part->percentage <= 25) {
-                $statusKey = 'danger';
-                $statusLabel = 'Danger';
-            } elseif ($part->percentage <= 50) {
-                $statusKey = 'warning';
-                $statusLabel = 'Warning';
-            } else {
-                $statusKey = 'safe';
-                $statusLabel = 'Safe';
-            }
+            $statusLabel = match ($part->status) {
+                'danger' => 'Kritis',
+                'warning' => 'Waspada',
+                default => 'Aman',
+            };
 
             return (object) [
                 'id' => $part->id,
