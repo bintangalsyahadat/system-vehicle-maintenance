@@ -270,11 +270,11 @@
                                                 <span x-text="day.dayNumber"></span>
                                             </div>
 
-                                            <!-- Label Singkat Komponen di Bawah Tanggal (Persis Desain) -->
+                                            <!-- Indikator Titik Status di Bawah Tanggal -->
                                             <template x-if="day.hasEvent">
-                                                <span class="text-[9px] font-black text-brand-main dark:text-brand-accent truncate max-w-[42px] leading-tight mt-0.5" 
-                                                      x-text="day.eventList[0] ? day.eventList[0].short_name : 'Servis'">
-                                                </span>
+                                                <div class="flex items-center justify-center space-x-0.5 mt-1">
+                                                    <span class="w-1.5 h-1.5 rounded-full bg-brand-main dark:bg-brand-accent"></span>
+                                                </div>
                                             </template>
                                         </button>
                                     </template>
@@ -336,7 +336,7 @@
             <div>
                 <h2 class="text-xl font-black text-slate-800 dark:text-white tracking-tight">Kesehatan Kendaraan</h2>
                 <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed max-w-4xl">
-                    Pantau kondisi oli, busi, aki, dan komponen motor Anda lainnya. Tanggal servis diprediksi dari estimasi {{ $activeVehicle->daily_average_km }} KM per hari, jadi Anda tahu kapan perlu merawatnya sebelum terlambat.
+                    Pantau kondisi oli mesin, oli gardan, busi, kampas rem, dan v-belt motor Anda. Tanggal servis diprediksi otomatis dari estimasi {{ $activeVehicle->daily_average_km }} KM per hari, jadi Anda tahu kapan perlu merawatnya sebelum terlambat.
                 </p>
             </div>
 
@@ -352,18 +352,18 @@
                                     <i data-lucide="{{ $part->icon }}" class="w-4 h-4"></i>
                                 </div>
 
-                                <!-- Status Badge (Danger, Warning, Safe) -->
+                                <!-- Status Badge (Kritis, Waspada, Aman) -->
                                 @if ($part->status === 'danger')
                                     <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-800/60">
-                                        Danger
+                                        {{ $part->status_label }}
                                     </span>
                                 @elseif ($part->status === 'warning')
                                     <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-800/60">
-                                        Warning
+                                        {{ $part->status_label }}
                                     </span>
                                 @else
                                     <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60">
-                                        Safe
+                                        {{ $part->status_label }}
                                     </span>
                                 @endif
                             </div>
@@ -411,17 +411,6 @@
                     </div>
                 @endforeach
 
-                <!-- KARTU TAMBAH KOMPONEN / PENGINGAT BARU (+ Tambah Komponen) -->
-                <div @click="addReminderModal = true" 
-                     class="rounded-3xl border-2 border-dashed border-slate-200 dark:border-slate-700/80 hover:border-brand-main dark:hover:border-brand-accent p-5 flex flex-col items-center justify-center text-center cursor-pointer group transition-all min-h-[220px]">
-                    <div class="w-10 h-10 rounded-2xl bg-slate-50 dark:bg-slate-800 group-hover:bg-brand-secondary/40 dark:group-hover:bg-brand-main/20 flex items-center justify-center text-slate-400 group-hover:text-brand-main dark:group-hover:text-brand-accent transition">
-                        <i data-lucide="plus" class="w-5 h-5"></i>
-                    </div>
-                    <span class="text-xs font-bold text-slate-600 dark:text-slate-400 group-hover:text-brand-main dark:group-hover:text-brand-accent mt-3 transition">
-                        + Tambah Komponen
-                    </span>
-                </div>
-
             </div>
         </div>
 
@@ -467,17 +456,16 @@
                     </span>
                 </a>
 
-                <!-- 4. Tambah Kendaraan -->
-                <button type="button"
-                        @click="addVehicleModal = true" 
-                        class="group bg-brand-main hover:bg-brand-dark text-white rounded-3xl p-5 shadow-sm shadow-brand-main/15 transition transform hover:-translate-y-1 active:translate-y-0 flex flex-col justify-between text-left min-h-[110px]">
+                <!-- 4. Garasi Kendaraan -->
+                <a href="{{ route('garage') }}" 
+                   class="group bg-brand-main hover:bg-brand-dark text-white rounded-3xl p-5 shadow-sm shadow-brand-main/15 transition transform hover:-translate-y-1 active:translate-y-0 flex flex-col justify-between min-h-[110px]">
                     <div class="w-9 h-9 rounded-2xl bg-white/15 flex items-center justify-center text-white">
                         <i data-lucide="bike" class="w-5 h-5"></i>
                     </div>
                     <span class="font-extrabold text-xs sm:text-sm mt-3 leading-tight">
-                        Tambah Kendaraan
+                        Garasi Kendaraan
                     </span>
-                </button>
+                </a>
 
             </div>
         </div>
@@ -725,81 +713,7 @@
     </div>
 
     <!-- ========================================================================= -->
-    <!-- MODAL 4: TAMBAH KOMPONEN / PENGINGAT SERVIS BARU                          -->
-    <!-- ========================================================================= -->
-    <div x-show="addReminderModal" 
-         x-cloak 
-         class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-        <div @click.outside="addReminderModal = false" 
-             class="bg-white dark:bg-[#1E293B] rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4 border border-slate-100 dark:border-slate-800">
-            
-            <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-700">
-                <div class="flex items-center space-x-2">
-                    <div class="w-8 h-8 rounded-xl bg-brand-secondary/40 dark:bg-brand-main/30 flex items-center justify-center text-brand-main dark:text-brand-accent">
-                        <i data-lucide="plus-circle" class="w-4 h-4"></i>
-                    </div>
-                    <h3 class="font-bold text-slate-800 dark:text-white text-base">Tambah Jadwal Servis Komponen</h3>
-                </div>
-                <button type="button" @click="addReminderModal = false" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
-                    <i data-lucide="x" class="w-5 h-5"></i>
-                </button>
-            </div>
-
-            @if ($activeVehicle)
-                <form action="{{ route('dashboard.reminders.store') }}" method="POST" class="space-y-4">
-                    @csrf
-                    <input type="hidden" name="vehicle_id" value="{{ $activeVehicle->id }}">
-
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                            Pilih Komponen <span class="text-rose-500">*</span>
-                        </label>
-                        <select name="maintenance_item_id" 
-                                required 
-                                class="w-full text-xs rounded-2xl border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white focus:ring-brand-main focus:border-brand-main">
-                            @foreach ($allMaintenanceItems as $item)
-                                <option value="{{ $item->id }}">{{ $item->item_name }} (Interval {{ number_format($item->interval_km, 0, ',', '.') }} KM)</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                            Target Tanggal Servis <span class="text-rose-500">*</span>
-                        </label>
-                        <input type="date" 
-                               name="scheduled_date" 
-                               value="{{ now()->addDays(14)->toDateString() }}"
-                               required 
-                               class="w-full text-xs rounded-2xl border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white focus:ring-brand-main focus:border-brand-main">
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                            Target Odometer (KM, Opsional)
-                        </label>
-                        <input type="number" 
-                               name="custom_km" 
-                               placeholder="Contoh: 16000"
-                               min="0"
-                               class="w-full text-xs rounded-2xl border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white focus:ring-brand-main focus:border-brand-main">
-                    </div>
-
-                    <div class="flex items-center justify-end space-x-2 pt-3 border-t border-slate-100 dark:border-slate-700">
-                        <button type="button" @click="addReminderModal = false" class="px-4 py-2 rounded-full border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-600 dark:text-slate-300">
-                            Batal
-                        </button>
-                        <button type="submit" class="px-5 py-2 rounded-full bg-brand-main hover:bg-brand-dark text-white text-xs font-bold shadow-md shadow-brand-main/20">
-                            Tambahkan ke Kalender
-                        </button>
-                    </div>
-                </form>
-            @endif
-        </div>
-    </div>
-
-    <!-- ========================================================================= -->
-    <!-- MODAL 5: DETAIL JADWAL SERVIS MENDEKAT                                    -->
+    <!-- MODAL 4: DETAIL JADWAL SERVIS MENDEKAT                                    -->
     <!-- ========================================================================= -->
     <div x-show="detailModal" 
          x-cloak 
@@ -862,7 +776,6 @@
             recalibrateModal: false,
             quickServiceModal: false,
             editDateModal: false,
-            addReminderModal: false,
             detailModal: false,
 
             selectedPart: {
