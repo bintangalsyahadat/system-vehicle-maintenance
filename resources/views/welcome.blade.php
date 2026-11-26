@@ -152,7 +152,7 @@
                     </svg>
                     <!-- Moon Icon (Tampil saat Light Mode) -->
                     <svg x-show="!darkMode" x-cloak xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+                        <path d="M12 3a6 6 0 0 0 9 9 9 0 1 1-9-9Z"/>
                     </svg>
                 </button>
 
@@ -232,29 +232,29 @@
         <div class="absolute -top-12 -right-20 sm:-top-24 sm:-right-24 w-80 h-80 sm:w-[500px] sm:h-[500px] lg:w-[650px] lg:h-[650px] bg-brand-secondary/35 dark:bg-brand-main/15 rounded-full pointer-events-none -z-0"></div>
         <div class="absolute -bottom-28 -left-20 w-72 h-72 sm:w-96 sm:h-96 bg-brand-secondary/25 dark:bg-brand-main/10 rounded-full blur-3xl pointer-events-none -z-0"></div>
 
-        <div class="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12 py-12 sm:py-16 lg:py-24 relative z-10">
+        <div class="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12 pt-10 sm:pt-14 lg:pt-20 pb-16 sm:pb-20 lg:pb-24 relative z-10">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 items-center">
-                <!-- Kolom Kiri (Animasi: Show from Left) -->
+                <!-- Kolom Kiri: Ukuran Diperbesar Signifikan (Animasi: Show from Left) -->
                 <div class="lg:col-span-6 text-left reveal-left">
-                    <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white tracking-tight leading-[1.18]">
+                    <h1 class="text-4xl sm:text-5xl lg:text-[56px] xl:text-[64px] font-black text-slate-900 dark:text-white tracking-tight leading-[1.12]">
                         Servis tepat waktu,<br>
                         <span class="text-brand-main dark:text-brand-accent">biaya lebih hemat.</span>
                     </h1>
 
-                    <p class="mt-5 text-sm sm:text-base lg:text-lg text-slate-500 dark:text-slate-400 leading-relaxed max-w-xl">
+                    <p class="mt-6 text-base sm:text-lg lg:text-xl text-slate-500 dark:text-slate-400 leading-relaxed max-w-xl">
                         SERVISA memprediksi jadwal servis motor dari pemakaian harian Anda, lalu mengingatkan sebelum terlambat.
                     </p>
 
-                    <div class="mt-8 flex flex-wrap items-center gap-3.5 sm:gap-4">
+                    <div class="mt-8 sm:mt-10 flex flex-wrap items-center gap-3.5 sm:gap-4">
                         <!-- Mulai Sekarang Pill -->
                         <a href="{{ route('dashboard') }}" 
-                           class="inline-flex items-center justify-center px-7 py-3 rounded-full bg-brand-main hover:bg-brand-dark text-white font-bold text-sm sm:text-base shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1 active:translate-y-0">
+                           class="inline-flex items-center justify-center px-8 py-3.5 rounded-full bg-brand-main hover:bg-brand-dark text-white font-bold text-sm sm:text-base shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1 active:translate-y-0">
                             Mulai Sekarang
                         </a>
 
                         <!-- Lihat Fitur Pill -->
                         <a href="#fitur" 
-                           class="inline-flex items-center justify-center px-7 py-3 rounded-full border border-brand-main text-brand-main hover:bg-brand-secondary/30 dark:hover:bg-brand-main/20 font-bold text-sm sm:text-base transition-all duration-300 transform hover:-translate-y-1 active:translate-y-0">
+                           class="inline-flex items-center justify-center px-8 py-3.5 rounded-full border border-brand-main text-brand-main hover:bg-brand-secondary/30 dark:hover:bg-brand-main/20 font-bold text-sm sm:text-base transition-all duration-300 transform hover:-translate-y-1 active:translate-y-0">
                             Lihat Fitur
                         </a>
                     </div>
@@ -343,12 +343,21 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Peek Concept Indicator: Konsep Mengintip ke Section Bawah -->
+            <div class="mt-12 sm:mt-16 lg:mt-20 flex flex-col items-center justify-center reveal-left delay-300 select-none">
+                <a href="#fitur" 
+                   class="group inline-flex items-center space-x-2.5 px-5 py-2.5 rounded-full bg-slate-50 dark:bg-slate-800/80 hover:bg-brand-secondary/40 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-brand-main dark:hover:text-brand-accent text-xs font-semibold backdrop-blur-md border border-slate-200/80 dark:border-slate-700/80 shadow-sm hover:shadow transition-all duration-300 transform hover:-translate-y-0.5">
+                    <span>Lihat fitur & layanan</span>
+                    <i data-lucide="chevron-down" class="w-4 h-4 text-brand-main dark:text-brand-accent transition-transform duration-300 group-hover:translate-y-0.5 animate-bounce"></i>
+                </a>
+            </div>
         </div>
     </section>
 
 
-    <!-- ==================== 3. SECTION FITUR (id="fitur", full-width bg-brand-main text-white) ==================== -->
-    <section id="fitur" class="w-full bg-brand-main text-white py-16 sm:py-20 lg:py-24 transition-colors duration-200">
+    <!-- ==================== 3. SECTION FITUR (id="fitur", full-width bg-brand-main text-white, Konsep Mengintip dari Bawah) ==================== -->
+    <section id="fitur" class="w-full bg-brand-main text-white pt-16 sm:pt-20 lg:pt-24 pb-16 sm:pb-20 lg:py-24 transition-colors duration-200 rounded-t-[2.5rem] sm:rounded-t-[3.5rem] lg:rounded-t-[4rem] shadow-2xl relative z-20 -mt-6 sm:-mt-8 lg:-mt-10">
         <div class="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12">
             <!-- Eyebrow & Heading (Animasi: Show from Left) -->
             <div class="text-left mb-10 sm:mb-14 reveal-left">
@@ -434,22 +443,22 @@
                 <!-- Kanan (Animasi: Show from Right) -->
                 <div class="lg:col-span-6 reveal-right">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-                        <!-- Kartu 1: Servis tepat waktu (Outline Hijau / Emerald) -->
-                        <div class="bg-white dark:bg-slate-800 border-2 border-emerald-300 dark:border-emerald-700 rounded-2xl p-6 sm:p-7 shadow-sm flex flex-col justify-center transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
+                        <!-- Kartu 1: Servis tepat waktu (Outline Hijau / Emerald, Ukuran Dipertegas) -->
+                        <div class="bg-white dark:bg-slate-800 border-2 border-emerald-300 dark:border-emerald-700 rounded-2xl p-6 sm:p-8 shadow-sm flex flex-col justify-center transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
                             <span class="block text-xs sm:text-sm font-bold text-emerald-600 dark:text-emerald-400 mb-2">
                                 Servis tepat waktu
                             </span>
-                            <span class="block text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">
+                            <span class="block text-3xl sm:text-4xl lg:text-[40px] font-black text-slate-900 dark:text-white tracking-tight">
                                 Rp55.000
                             </span>
                         </div>
 
-                        <!-- Kartu 2: Jika diabaikan (bg-brand-main text-white) -->
-                        <div class="bg-brand-main text-white rounded-2xl p-6 sm:p-7 shadow-lg shadow-brand-main/20 flex flex-col justify-center transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+                        <!-- Kartu 2: Jika diabaikan (bg-brand-main text-white, Ukuran Dipertegas) -->
+                        <div class="bg-brand-main text-white rounded-2xl p-6 sm:p-8 shadow-lg shadow-brand-main/20 flex flex-col justify-center transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
                             <span class="block text-xs sm:text-sm font-medium text-white/90 mb-2">
                                 Jika diabaikan
                             </span>
-                            <span class="block text-2xl sm:text-3xl font-black text-white">
+                            <span class="block text-3xl sm:text-4xl lg:text-[40px] font-black text-white tracking-tight">
                                 Rp1.200.000
                             </span>
                         </div>
