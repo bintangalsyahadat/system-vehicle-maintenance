@@ -32,7 +32,7 @@
     @endif
 
     @if(!$activeVehicle)
-        <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-12 text-center text-slate-400 space-y-3 border border-slate-100 dark:border-slate-800">
+        <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-12 text-center text-slate-400 space-y-3 border border-slate-100 dark:border-slate-700/80">
             <div class="w-16 h-16 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center mx-auto text-slate-400">
                 <i data-lucide="bike" class="w-8 h-8"></i>
             </div>
@@ -46,7 +46,7 @@
     @else
 
         <!-- ==================== 1. FINANCIAL & PASSPORT SUMMARY CARD ==================== -->
-        <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-6 sm:p-8 border border-slate-100 dark:border-slate-800 shadow-sm flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-6 transition-colors">
+        <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-6 sm:p-8 border border-slate-100 dark:border-slate-700/80 shadow-sm flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-6 transition-colors">
             <!-- Left Info: Motor Aktif & Passport Status -->
             <div class="flex items-center space-x-4">
                 <div class="w-16 h-16 rounded-2xl bg-brand-secondary/40 dark:bg-brand-main/20 flex items-center justify-center text-brand-main dark:text-brand-accent flex-shrink-0">
@@ -72,7 +72,7 @@
             <!-- Middle Stats Cards -->
             <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 flex-1 lg:max-w-xl">
                 <!-- Total Biaya Servis -->
-                <div class="bg-slate-50 dark:bg-slate-900/50 p-3.5 rounded-2xl border border-slate-100 dark:border-slate-800">
+                <div class="bg-slate-50 dark:bg-slate-900/70 p-3.5 rounded-2xl border border-slate-100 dark:border-slate-700/80">
                     <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Total Pengeluaran</span>
                     <span class="text-sm sm:text-base font-black text-slate-800 dark:text-white mt-0.5 block">
                         Rp {{ number_format($totalCost, 0, ',', '.') }}
@@ -80,7 +80,7 @@
                 </div>
 
                 <!-- Frekuensi Servis -->
-                <div class="bg-slate-50 dark:bg-slate-900/50 p-3.5 rounded-2xl border border-slate-100 dark:border-slate-800">
+                <div class="bg-slate-50 dark:bg-slate-900/70 p-3.5 rounded-2xl border border-slate-100 dark:border-slate-700/80">
                     <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Catatan Servis</span>
                     <span class="text-sm sm:text-base font-black text-slate-800 dark:text-white mt-0.5 block">
                         {{ $totalServices }} Log Selesai
@@ -88,7 +88,7 @@
                 </div>
 
                 <!-- Riwayat Diagnosa AI -->
-                <div class="bg-slate-50 dark:bg-slate-900/50 p-3.5 rounded-2xl border border-slate-100 dark:border-slate-800 col-span-2 sm:col-span-1">
+                <div class="bg-slate-50 dark:bg-slate-900/70 p-3.5 rounded-2xl border border-slate-100 dark:border-slate-700/80 col-span-2 sm:col-span-1">
                     <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Diagnosa AI</span>
                     <span class="text-sm sm:text-base font-black text-slate-800 dark:text-white mt-0.5 block">
                         {{ $totalAiScans }} Riwayat Scan
@@ -125,7 +125,7 @@
         <!-- ==================== 2. TABS & FILTER CONTROLS ==================== -->
         <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
             <!-- Tab Selector -->
-            <div class="flex items-center space-x-1.5 bg-slate-100 dark:bg-slate-900/80 p-1 rounded-2xl border border-slate-200/60 dark:border-slate-800">
+            <div class="flex items-center space-x-1.5 bg-slate-100 dark:bg-slate-900/80 p-1 rounded-2xl border border-slate-200/60 dark:border-slate-700/80">
                 <button type="button" 
                         @click="activeTab = 'service_logs'" 
                         :class="activeTab === 'service_logs' ? 'bg-white dark:bg-[#1E293B] text-brand-main dark:text-brand-accent font-bold shadow-sm' : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 font-medium'"
@@ -159,7 +159,7 @@
         <div x-show="activeTab === 'service_logs'" class="space-y-4">
             @forelse($groupedLogs as $log)
                 <div x-show="selectedItem === 'all' || ({{ json_encode($log->part_ids) }}).includes(parseInt(selectedItem))"
-                     class="bg-white dark:bg-[#1E293B] rounded-3xl p-5 sm:p-6 border border-slate-100 dark:border-slate-800 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all hover:border-slate-200 dark:hover:border-slate-700">
+                     class="bg-white dark:bg-[#1E293B] rounded-3xl p-5 sm:p-6 border border-slate-100 dark:border-slate-700/80 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all hover:border-slate-200 dark:hover:border-slate-700">
                     
                     <div class="flex items-start space-x-4">
                         <!-- Gambar Thumbnail Nota atau Icon Bengkel -->
@@ -217,7 +217,7 @@
                                 </span>
                             </p>
                             @if($log->notes)
-                                <p class="text-xs text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-900/60 p-2.5 rounded-xl border border-slate-100 dark:border-slate-800 mt-2">
+                                <p class="text-xs text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-900/70 p-2.5 rounded-xl border border-slate-100 dark:border-slate-700/80 mt-2">
                                     {{ $log->notes }}
                                 </p>
                             @endif
@@ -225,7 +225,7 @@
                     </div>
 
                     <!-- Right Column: Cost & Action Buttons (Edit & Hapus) -->
-                    <div class="flex md:flex-col items-center md:items-end justify-between border-t md:border-t-0 pt-3 md:pt-0 border-slate-100 dark:border-slate-800 space-y-2">
+                    <div class="flex md:flex-col items-center md:items-end justify-between border-t md:border-t-0 pt-3 md:pt-0 border-slate-100 dark:border-slate-700/80 space-y-2">
                         <span class="text-base font-black text-brand-main dark:text-brand-accent">
                             Rp {{ number_format($log->actual_cost, 0, ',', '.') }}
                         </span>
@@ -252,7 +252,7 @@
                     </div>
                 </div>
             @empty
-                <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-12 text-center text-slate-400 space-y-3 border border-slate-100 dark:border-slate-800">
+                <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-12 text-center text-slate-400 space-y-3 border border-slate-100 dark:border-slate-700/80">
                     <div class="w-16 h-16 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center mx-auto text-slate-400">
                         <i data-lucide="clipboard" class="w-8 h-8"></i>
                     </div>
@@ -274,7 +274,7 @@
         <!-- ==================== 4. TAB 2: RIWAYAT DIAGNOSA AI ==================== -->
         <div x-show="activeTab === 'ai_scans'" class="space-y-4">
             @forelse($aiScans as $scan)
-                <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-5 sm:p-6 border border-slate-100 dark:border-slate-800 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all">
+                <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-5 sm:p-6 border border-slate-100 dark:border-slate-700/80 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all">
                     <div class="flex items-start space-x-4">
                         @if($scan->image_url)
                             <img src="{{ $scan->image_url }}" alt="Foto Scan" class="w-14 h-14 rounded-2xl object-cover border border-slate-200 dark:border-slate-700 flex-shrink-0 bg-slate-900 mt-0.5">
@@ -296,7 +296,7 @@
                                 <i data-lucide="clock" class="w-3.5 h-3.5"></i>
                                 <span>{{ \Carbon\Carbon::parse($scan->created_at)->translatedFormat('d F Y, H:i') }} WIB</span>
                             </p>
-                            <p class="text-xs text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-900/60 p-2.5 rounded-xl border border-slate-100 dark:border-slate-800 mt-2">
+                            <p class="text-xs text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-900/70 p-2.5 rounded-xl border border-slate-100 dark:border-slate-700/80 mt-2">
                                 <strong>Protokol:</strong> {{ $scan->emergency_action }}
                             </p>
                             @if($scan->estimated_cost_min && $scan->estimated_cost_max)
@@ -308,7 +308,7 @@
                     </div>
 
                     <!-- Right Column: Status & Resolution Action -->
-                    <div class="flex md:flex-col items-center md:items-end justify-between border-t md:border-t-0 pt-3 md:pt-0 border-slate-100 dark:border-slate-800">
+                    <div class="flex md:flex-col items-center md:items-end justify-between border-t md:border-t-0 pt-3 md:pt-0 border-slate-100 dark:border-slate-700/80">
                         @if($scan->is_resolved)
                             <span class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400">
                                 <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
@@ -327,7 +327,7 @@
                     </div>
                 </div>
             @empty
-                <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-12 text-center text-slate-400 space-y-3 border border-slate-100 dark:border-slate-800">
+                <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-12 text-center text-slate-400 space-y-3 border border-slate-100 dark:border-slate-700/80">
                     <div class="w-16 h-16 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center mx-auto text-slate-400">
                         <i data-lucide="sparkles" class="w-8 h-8"></i>
                     </div>
@@ -397,7 +397,7 @@
                     <!-- Mode Unggah File -->
                     <div x-show="receiptScanMode === 'file'" 
                          @click="$refs.receiptFileInput.click()"
-                         class="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-2xl p-8 text-center cursor-pointer hover:border-emerald-500 dark:hover:border-emerald-500 transition space-y-2 bg-slate-50 dark:bg-slate-900/40">
+                         class="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-2xl p-8 text-center cursor-pointer hover:border-emerald-500 dark:hover:border-emerald-500 transition space-y-2 bg-slate-50 dark:bg-slate-900/70">
                         <input type="file" x-ref="receiptFileInput" @change="handleReceiptFileSelect" accept="image/*,application/pdf" class="hidden">
                         <div class="w-12 h-12 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto">
                             <i data-lucide="image-plus" class="w-6 h-6"></i>
@@ -562,7 +562,7 @@
 
                     <div class="space-y-2 max-h-48 overflow-y-auto no-scrollbar p-1">
                         <template x-for="(line, index) in formData.items" :key="index">
-                            <div class="p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700/80 flex items-center space-x-2">
+                            <div class="p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-700/80 flex items-center space-x-2">
                                 <div class="flex-1 space-y-1">
                                     <div class="flex items-center space-x-1.5">
                                         <select :name="'items[' + index + '][maintenance_item_id]'" 
@@ -628,7 +628,7 @@
          class="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4">
         <div @click.outside="previewModal = false" 
              class="bg-white dark:bg-[#1E293B] rounded-3xl max-w-lg w-full p-4 shadow-2xl space-y-3 border border-transparent dark:border-slate-700 flex flex-col max-h-[90vh]">
-            <div class="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-800">
+            <div class="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-700/80">
                 <span class="text-xs font-bold text-slate-800 dark:text-white flex items-center space-x-1.5">
                     <i data-lucide="shield-check" class="w-4 h-4 text-emerald-500"></i>
                     <span>Bukti Nota Servis Terverifikasi</span>

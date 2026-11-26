@@ -266,7 +266,7 @@
     </div>
 
     <!-- ==================== 3. BOTTOM NAVIGATION MOBILE & TABLET (4 MENU) ==================== -->
-    <nav class="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 dark:bg-[#1E293B]/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 px-3 py-2 flex justify-around shadow-lg transition-colors">
+    <nav class="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 dark:bg-[#1E293B]/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-700/80 px-3 py-2 flex justify-around shadow-lg transition-colors">
         <a href="{{ route('dashboard') }}" 
            class="flex flex-col items-center py-1 {{ request()->routeIs('dashboard') ? 'text-brand-main dark:text-brand-accent font-bold' : 'text-slate-400 dark:text-slate-500' }}">
             <i data-lucide="layout-grid" class="w-5 h-5"></i>
