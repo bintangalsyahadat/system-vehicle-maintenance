@@ -38,6 +38,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Menu 4: Riwayat & Paspor PDF (Dev 4)
     Route::get('/riwayat', [HistoryController::class, 'index'])->name('history');
     Route::post('/riwayat/service-logs', [HistoryController::class, 'storeLog'])->name('history.storeLog');
+    Route::post('/riwayat/scan-receipt', [HistoryController::class, 'scanReceipt'])->name('history.scanReceipt');
+    Route::put('/riwayat/service-logs', [HistoryController::class, 'updateLog'])->name('history.updateLog');
+    Route::delete('/riwayat/service-logs', [HistoryController::class, 'destroyLog'])->name('history.destroyLog');
     Route::patch('/riwayat/ai-scans/{aiScan}/resolve', [HistoryController::class, 'resolveAiScan'])->name('history.resolveAiScan');
     Route::get('/vehicles/{vehicle}/passport', [HistoryController::class, 'printPassport'])->name('history.passport');
 

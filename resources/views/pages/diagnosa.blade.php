@@ -458,7 +458,13 @@ function speedometerScanner() {
         mediaStream: null,
 
         init() {
-            // Kamera tidak otomatis jalan saat buka halaman
+            // Auto-buka scanner modal jika user datang dari tombol cepat Dashboard (?scan=camera)
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('scan') === 'camera') {
+                this.$nextTick(() => {
+                    this.openScannerModal('camera');
+                });
+            }
         },
 
         openScannerModal(initialMode = 'camera') {

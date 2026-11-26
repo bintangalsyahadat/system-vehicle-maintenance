@@ -131,6 +131,36 @@ class DashboardController extends Controller
 
         $allMaintenanceItems = MaintenanceItem::all();
 
+        // Ambil riwayat servis kendaraan aktif saat ini (dikelompokkan per tanggal/kunjungan nota)
+        $rawLogs = ServiceLog::with('maintenanceItem')
+            ->where('vehicle_id', $activeVehicle->id)
+            ->orderBy('service_date', 'desc')
+            ->orderBy('id', 'desc')
+            ->get();
+
+        $recentServiceLogs = $rawLogs->groupBy(function ($log) {
+            return $log->service_date->format('Y-m-d') . '_' . $log->odometer_at_service . '_' . ($log->workshop_name ?? '');
+        })->map(function ($items) {
+            $first = $items->first();
+            $partNames = $items->pluck('maintenanceItem.item_name')->filter()->values();
+            $totalCost = $items->sum('actual_cost');
+            $receiptImageUrl = $items->pluck('receipt_image_url')->filter()->first();
+
+            return (object) [
+                'id' => $first->id,
+                'service_date' => $first->service_date->format('Y-m-d'),
+                'service_date_formatted' => $first->service_date->translatedFormat('d F Y'),
+                'odometer_at_service' => $first->odometer_at_service,
+                'actual_cost' => $totalCost,
+                'workshop_name' => $first->workshop_name ?: 'Bengkel Mandiri',
+                'notes' => $items->pluck('notes')->filter()->first(),
+                'part_names' => $partNames,
+                'receipt_image_url' => $receiptImageUrl,
+                'is_verified' => !empty($receiptImageUrl),
+                'item_count' => $items->count(),
+            ];
+        })->values();
+
         return view('pages.dashboard', compact(
             'vehicles',
             'activeVehicle',
@@ -139,7 +169,8 @@ class DashboardController extends Controller
             'parts',
             'closestPart',
             'calendarEvents',
-            'allMaintenanceItems'
+            'allMaintenanceItems',
+            'recentServiceLogs'
         ));
     }
 

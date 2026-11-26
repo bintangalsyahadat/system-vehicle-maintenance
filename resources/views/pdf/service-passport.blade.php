@@ -18,7 +18,7 @@
             padding: 30px;
         }
         .container {
-            max-width: 800px;
+            max-width: 820px;
             margin: 0 auto;
             background: #ffffff;
             padding: 40px;
@@ -96,8 +96,20 @@
             padding: 12px;
             border-bottom: 1px solid #e2e8f0;
             font-size: 12px;
+            vertical-align: top;
         }
         .text-right { text-align: right; }
+        .tag-verified {
+            display: inline-block;
+            background-color: #ecfdf5;
+            color: #047857;
+            border: 1px solid #a7f3d0;
+            padding: 2px 7px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: bold;
+            margin-top: 3px;
+        }
         .footer-summary {
             display: flex;
             justify-content: space-between;
@@ -108,7 +120,7 @@
         .footer-note {
             font-size: 11px;
             color: #64748b;
-            max-width: 450px;
+            max-width: 480px;
         }
         .print-btn {
             background-color: #0f172a;
@@ -125,7 +137,7 @@
 </head>
 <body>
 
-    <div class="no-print" style="max-width: 800px; margin: 0 auto 20px auto; display: flex; justify-content: space-between; align-items: center;">
+    <div class="no-print" style="max-width: 820px; margin: 0 auto 20px auto; display: flex; justify-content: space-between; align-items: center;">
         <span style="font-size: 13px; color: #64748b;">Pratinjau Cetak Buku Paspor Servis Resmi</span>
         <button class="print-btn" onclick="window.print()">🖨️ Cetak / Simpan PDF</button>
     </div>
@@ -135,10 +147,10 @@
         <div class="header">
             <div>
                 <div class="logo-title">SERVISA</div>
-                <div class="tagline">Smart Vehicle Maintenance Passport</div>
+                <div class="tagline">Smart Vehicle Maintenance Passport & Verified History</div>
             </div>
             <div>
-                <span class="badge">Terverifikasi Digital</span>
+                <span class="badge">✓ Terverifikasi Digital</span>
             </div>
         </div>
 
@@ -163,15 +175,16 @@
         </div>
 
         <!-- Tabel Catatan Servis -->
-        <h3 style="font-size: 14px; font-weight: 800; margin-bottom: 10px; color: #0f172a;">Catatan Rekam Jejak Servis Bengkel</h3>
+        <h3 style="font-size: 14px; font-weight: 800; margin-bottom: 10px; color: #0f172a;">Catatan Rekam Jejak Servis Bengkel & Verifikasi Nota</h3>
         <table>
             <thead>
                 <tr>
-                    <th style="width: 40px;">No</th>
+                    <th style="width: 35px;">No</th>
                     <th>Tanggal</th>
-                    <th>Komponen Servis</th>
+                    <th>Komponen & Item Servis</th>
                     <th>Bengkel Pelaksana</th>
                     <th>Odometer</th>
+                    <th>Status Nota</th>
                     <th class="text-right">Biaya (Rp)</th>
                 </tr>
             </thead>
@@ -192,13 +205,20 @@
                         </td>
                         <td>{{ $log->workshop_name ?: 'Bengkel Mandiri' }}</td>
                         <td style="font-family: monospace;">{{ number_format($log->odometer_at_service, 0, ',', '.') }} KM</td>
+                        <td>
+                            @if(!empty($log->is_verified))
+                                <span class="tag-verified">📸 Nota Asli</span>
+                            @else
+                                <span style="font-size: 10px; color: #94a3b8;">Input Manual</span>
+                            @endif
+                        </td>
                         <td class="text-right" style="font-weight: bold;">
                             {{ number_format($log->actual_cost, 0, ',', '.') }}
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" style="text-align: center; color: #94a3b8; padding: 25px;">Belum ada catatan servis tercatat.</td>
+                        <td colspan="7" style="text-align: center; color: #94a3b8; padding: 25px;">Belum ada catatan servis tercatat.</td>
                     </tr>
                 @endforelse
             </tbody>

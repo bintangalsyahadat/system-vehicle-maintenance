@@ -120,32 +120,84 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        // 5. Riwayat Servis Kendaraan Demo (Paspor Servis Digital)
-        ServiceLog::firstOrCreate(
+        // 5. Riwayat Servis Kendaraan Demo (Paspor Servis Digital & Bukti Nota Terverifikasi)
+        // Kunjungan 1: Servis Berkala Lengkap (Oli Mesin + Filter Udara) dengan Bukti Nota Resmi AHASS
+        $receiptA = 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=800&q=80';
+        ServiceLog::updateOrCreate(
             [
                 'vehicle_id' => $vehicle->id,
+                'maintenance_item_id' => $createdItems[0]->id, // Oli Mesin
                 'odometer_at_service' => 14700,
             ],
             [
-                'maintenance_item_id' => $createdItems[0]->id, // Oli Mesin
                 'service_date' => now()->subDays(6)->toDateString(),
-                'actual_cost' => 85000,
+                'actual_cost' => 65000,
                 'workshop_name' => 'AHASS Astra Motor Purwokerto',
-                'notes' => 'Ganti Oli Mesin SPX2 & Reset Sensor MIL O2.',
+                'notes' => 'Ganti Oli Mesin SPX2 (Full Synthetic) & Reset Sensor MIL O2.',
+                'receipt_image_url' => $receiptA,
             ]
         );
 
-        ServiceLog::firstOrCreate(
+        ServiceLog::updateOrCreate(
             [
                 'vehicle_id' => $vehicle->id,
+                'maintenance_item_id' => $createdItems[5]->id, // Filter Udara
+                'odometer_at_service' => 14700,
+            ],
+            [
+                'service_date' => now()->subDays(6)->toDateString(),
+                'actual_cost' => 55000,
+                'workshop_name' => 'AHASS Astra Motor Purwokerto',
+                'notes' => 'Ganti Filter Udara (Air Cleaner) Baru.',
+                'receipt_image_url' => $receiptA,
+            ]
+        );
+
+        // Kunjungan 2: Penggantian Kampas Rem & Busi
+        $receiptB = 'https://images.unsplash.com/photo-1607344645866-009c320c5ab8?auto=format&fit=crop&w=800&q=80';
+        ServiceLog::updateOrCreate(
+            [
+                'vehicle_id' => $vehicle->id,
+                'maintenance_item_id' => $createdItems[3]->id, // Kampas Rem
                 'odometer_at_service' => 12200,
             ],
             [
-                'maintenance_item_id' => $createdItems[3]->id, // Kampas Rem
                 'service_date' => now()->subMonths(2)->toDateString(),
-                'actual_cost' => 95000,
-                'workshop_name' => 'Bengkel Berkah Motor',
-                'notes' => 'Penggantian Kampas Rem Depan Original.',
+                'actual_cost' => 60000,
+                'workshop_name' => 'Bengkel Resmi Astra Honda',
+                'notes' => 'Penggantian Kampas Rem Depan Original (Brake Pad).',
+                'receipt_image_url' => $receiptB,
+            ]
+        );
+
+        ServiceLog::updateOrCreate(
+            [
+                'vehicle_id' => $vehicle->id,
+                'maintenance_item_id' => $createdItems[2]->id, // Busi
+                'odometer_at_service' => 12200,
+            ],
+            [
+                'service_date' => now()->subMonths(2)->toDateString(),
+                'actual_cost' => 35000,
+                'workshop_name' => 'Bengkel Resmi Astra Honda',
+                'notes' => 'Ganti Busi NGK CPR9EA-9 Standar Pabrikan.',
+                'receipt_image_url' => $receiptB,
+            ]
+        );
+
+        // Kunjungan 3: Servis Perawatan Transmisi CVT (Oli Gardan & V-Belt)
+        ServiceLog::updateOrCreate(
+            [
+                'vehicle_id' => $vehicle->id,
+                'maintenance_item_id' => $createdItems[1]->id, // Oli Gardan
+                'odometer_at_service' => 9500,
+            ],
+            [
+                'service_date' => now()->subMonths(5)->toDateString(),
+                'actual_cost' => 25000,
+                'workshop_name' => 'Bengkel Mandiri Jaya Motor',
+                'notes' => 'Penggantian Cairan Pelumas Oli Gardan Matic.',
+                'receipt_image_url' => null,
             ]
         );
 

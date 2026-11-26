@@ -261,32 +261,44 @@
                         </div>
                     </div>
 
-                    <!-- Action Buttons: Ubah KM & Estimasi Harian -->
-                    <div class="flex flex-wrap items-center gap-2.5 mt-4">
+                    <!-- Action Buttons: Scan Nota Servis, Scan Diagnosa, Ubah KM, & Estimasi Harian -->
+                    <div class="flex flex-wrap items-center gap-2.5 mt-5">
+                        <a href="{{ route('history') }}?scan=receipt" 
+                           class="inline-flex items-center space-x-2 px-4 sm:px-5 py-2.5 rounded-full bg-brand-main hover:bg-brand-dark text-white font-extrabold text-xs shadow-md shadow-brand-main/25 transition transform hover:scale-105 active:scale-95">
+                            <i data-lucide="scan" class="w-4 h-4"></i>
+                            <span>Scan Nota Servis</span>
+                        </a>
+
+                        <a href="{{ route('diagnosa') }}?scan=camera" 
+                           class="inline-flex items-center space-x-2 px-4 sm:px-5 py-2.5 rounded-full bg-slate-800 hover:bg-slate-900 dark:bg-slate-700 dark:hover:bg-slate-600 text-white font-extrabold text-xs shadow-sm transition transform hover:scale-105 active:scale-95">
+                            <i data-lucide="stethoscope" class="w-4 h-4 text-white"></i>
+                            <span>Scan Diagnosa</span>
+                        </a>
+
                         <button type="button"
                                 @click="recalibrateModal = true" 
-                                class="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-brand-main hover:bg-brand-dark text-white font-bold text-xs shadow-md shadow-brand-main/20 transition hover:scale-105 active:scale-95">
-                            <i data-lucide="gauge" class="w-3.5 h-3.5"></i>
+                                class="inline-flex items-center space-x-1.5 px-3.5 py-2.5 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs transition">
+                            <i data-lucide="gauge" class="w-3.5 h-3.5 text-slate-400"></i>
                             <span>Ubah KM</span>
                         </button>
 
-                        <div class="inline-flex items-center space-x-2 px-3.5 py-2 rounded-full border border-slate-200 dark:border-slate-700 bg-slate-50/80 dark:bg-slate-800/80 text-slate-700 dark:text-slate-200 font-semibold text-xs">
+                        <div class="inline-flex items-center space-x-2 px-3.5 py-2 rounded-full border border-slate-200 dark:border-slate-700/80 bg-slate-100 dark:bg-slate-800/90 text-slate-700 dark:text-slate-200 font-semibold text-xs shadow-inner dark:shadow-none">
                             <span class="w-2 h-2 rounded-full bg-brand-main dark:bg-brand-accent animate-pulse"></span>
-                            <span>+ {{ $activeVehicle->daily_average_km }} KM hari ini</span>
+                            <span>+ {{ $activeVehicle->daily_average_km }} KM/hari</span>
                         </div>
                     </div>
 
-                    <!-- 2 Kolom Meta Info (Dihitung & Servis Terdekat) -->
-                    <div class="mt-6 pt-5 border-t border-slate-100 dark:border-slate-800/80 grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <div class="bg-slate-50/80 dark:bg-slate-800/50 rounded-2xl p-3.5 border border-slate-100 dark:border-slate-800">
-                            <span class="text-[11px] font-semibold text-slate-400 block">Dihitung</span>
+                    <!-- 2 Kolom Meta Info (Dihitung & Servis Terdekat) dengan Kontras Jelas -->
+                    <div class="mt-6 pt-5 border-t border-slate-100 dark:border-slate-700/80 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div class="bg-slate-100/80 dark:bg-slate-900/70 rounded-2xl p-3.5 border border-slate-200/80 dark:border-slate-700/70 shadow-sm">
+                            <span class="text-[11px] font-semibold text-slate-400 dark:text-slate-400 block">Dihitung</span>
                             <span class="text-xs font-bold text-slate-700 dark:text-slate-200 mt-0.5 block">
                                 Hari ini, {{ now()->format('H.i') }}
                             </span>
                         </div>
 
-                        <div class="bg-slate-50/80 dark:bg-slate-800/50 rounded-2xl p-3.5 border border-slate-100 dark:border-slate-800">
-                            <span class="text-[11px] font-semibold text-slate-400 block">Servis terdekat</span>
+                        <div class="bg-slate-100/80 dark:bg-slate-900/70 rounded-2xl p-3.5 border border-slate-200/80 dark:border-slate-700/70 shadow-sm">
+                            <span class="text-[11px] font-semibold text-slate-400 dark:text-slate-400 block">Servis terdekat</span>
                             <span class="text-xs font-bold text-brand-main dark:text-brand-accent mt-0.5 block truncate">
                                 {{ $closestPart ? $closestPart->short_name . ', ' . $closestPart->predicted_date_formatted : 'Belum Ada Jadwal' }}
                             </span>
@@ -299,32 +311,7 @@
                     </p>
                 </div>
 
-                <!-- KARTU 2: BANNER JADWAL SERVIS MENDEKAT -->
-                @if ($closestPart)
-                    <div class="bg-brand-main text-white rounded-3xl p-6 sm:p-7 shadow-lg shadow-brand-main/20 relative overflow-hidden transition-all">
-                        <!-- Lingkaran Dekorasi Background -->
-                        <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
-                        <div class="absolute -left-6 -top-6 w-24 h-24 bg-white/5 rounded-full blur-xl pointer-events-none"></div>
 
-                        <div class="relative z-10">
-                            <div class="flex items-center space-x-2">
-                                <span class="w-2.5 h-2.5 rounded-full bg-white animate-ping"></span>
-                                <h3 class="text-base sm:text-lg font-black tracking-wide">Jadwal Servis Mendekat</h3>
-                            </div>
-                            
-                            <p class="text-xs sm:text-sm text-white/90 mt-2 leading-relaxed max-w-xl">
-                                Servis <span class="font-bold underline decoration-white/40 underline-offset-2">{{ strtolower($closestPart->name) }}</span> dijadwalkan pada <span class="font-extrabold">{{ $closestPart->predicted_date_formatted }}</span>.
-                            </p>
-
-                            <button type="button"
-                                    @click="openDetailModal({{ json_encode($closestPart) }})" 
-                                    class="mt-5 px-5 py-2.5 rounded-full bg-white text-brand-main font-bold text-xs shadow hover:bg-slate-50 transition transform hover:scale-105 active:scale-95 inline-flex items-center space-x-2">
-                                <span>Lihat Detail</span>
-                                <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-                            </button>
-                        </div>
-                    </div>
-                @endif
 
             </div>
 
@@ -333,12 +320,22 @@
                 <!-- Grid 2 Kolom Konsisten untuk 6 Komponen Vital -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                     @foreach ($parts as $part)
-                        <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-4 sm:p-5 border border-slate-100 dark:border-slate-800 shadow-sm flex flex-col justify-between hover:shadow-md transition-all group">
+                        <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-4 sm:p-5 border {{ ($closestPart && $closestPart->id === $part->id) ? 'border-brand-main/50 dark:border-brand-main/60 ring-2 ring-brand-main/15 shadow-md shadow-brand-main/5' : 'border-slate-100 dark:border-slate-800 shadow-sm' }} flex flex-col justify-between hover:shadow-md transition-all group">
                             <div>
-                                <!-- Header Kartu: Icon & Status Badge -->
+                                <!-- Header Kartu: Icon, Servis Mendekat Pin, & Status Badge -->
                                 <div class="flex items-center justify-between">
-                                    <div class="w-8 h-8 rounded-2xl bg-brand-secondary/30 dark:bg-brand-main/20 flex items-center justify-center text-brand-main dark:text-brand-accent">
-                                        <i data-lucide="{{ $part->icon }}" class="w-4 h-4"></i>
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-8 h-8 rounded-2xl bg-brand-secondary/30 dark:bg-brand-main/20 flex items-center justify-center text-brand-main dark:text-brand-accent">
+                                            <i data-lucide="{{ $part->icon }}" class="w-4 h-4"></i>
+                                        </div>
+
+                                        @if ($closestPart && $closestPart->id === $part->id)
+                                            <!-- Badge Penanda Servis Terdekat -->
+                                            <span class="inline-flex items-center space-x-1 px-2 py-0.5 rounded-full text-[9px] font-black bg-brand-main/10 dark:bg-brand-main/25 text-brand-main dark:text-brand-accent border border-brand-main/30">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-brand-main dark:bg-brand-accent animate-ping"></span>
+                                                <span>Servis Mendekat</span>
+                                            </span>
+                                        @endif
                                     </div>
 
                                     <!-- Status Badge (Kritis, Waspada, Aman) -->
@@ -370,8 +367,8 @@
                                     </span>
                                 </div>
 
-                                <!-- Progress Bar Kesehatan Part -->
-                                <div class="w-full h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full mt-3 overflow-hidden">
+                                <!-- Progress Bar Kesehatan Part (Trek Jelas di Dark Mode) -->
+                                <div class="w-full h-2 bg-slate-100 dark:bg-slate-900/90 border border-transparent dark:border-slate-700/60 rounded-full mt-3 overflow-hidden">
                                     <div class="h-full rounded-full transition-all duration-500 {{ $part->status === 'danger' ? 'bg-rose-500' : ($part->status === 'warning' ? 'bg-amber-500' : 'bg-emerald-500') }}" 
                                          style="width: {{ $part->percentage }}%"></div>
                                 </div>
@@ -402,61 +399,192 @@
 
         </div>
 
-        <!-- ==================== 3. BAGIAN BAWAH: AKSI CEPAT ==================== -->
-        <div class="space-y-4 pt-2">
-            <div>
-                <h2 class="text-xl font-black text-slate-800 dark:text-white tracking-tight">Aksi Cepat</h2>
+        <!-- ==================== 2. BAGIAN BAWAH: TABEL RIWAYAT SERVIS KENDARAAN AKTIF ==================== -->
+        <div class="space-y-4 pt-1">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="text-xl font-black text-slate-800 dark:text-white tracking-tight flex items-center space-x-2">
+                        <i data-lucide="history" class="w-5 h-5 text-brand-main dark:text-brand-accent"></i>
+                        <span>Riwayat Servis Kendaraan</span>
+                    </h2>
+                    <p class="text-xs text-slate-400 mt-0.5">
+                        Rekam jejak pengerjaan servis bengkel & suku cadang untuk {{ $activeVehicle->model_name }}
+                    </p>
+                </div>
+
+                <div class="flex items-center space-x-2">
+                    <a href="{{ route('history') }}" 
+                       class="text-xs font-bold text-brand-main dark:text-brand-accent hover:underline flex items-center space-x-1">
+                        <span>Lihat Semua</span>
+                        <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                    </a>
+                </div>
             </div>
 
-            <!-- Grid 4 Tombol Aksi Cepat Sesuai Desain Foto -->
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                
-                <!-- 1. Kalkulator Kerugian -->
-                <a href="{{ route('calculator') }}" 
-                   class="group bg-brand-main hover:bg-brand-dark text-white rounded-3xl p-5 shadow-sm shadow-brand-main/15 transition transform hover:-translate-y-1 active:translate-y-0 flex flex-col justify-between min-h-[110px]">
-                    <div class="w-9 h-9 rounded-2xl bg-white/15 flex items-center justify-center text-white">
-                        <i data-lucide="calculator" class="w-5 h-5"></i>
-                    </div>
-                    <span class="font-extrabold text-xs sm:text-sm mt-3 leading-tight">
-                        Kalkulator Kerugian
-                    </span>
-                </a>
+            <!-- 1. TAMPILAN MOBILE (Card List Rapi Khusus Layar Kecil / HP) -->
+            <div class="block md:hidden space-y-3">
+                @forelse($recentServiceLogs as $log)
+                    <div class="bg-white dark:bg-[#1E293B] rounded-2xl p-4 border border-slate-100 dark:border-slate-800 shadow-sm space-y-3 transition">
+                        <!-- Baris Atas: Tanggal, Status Nota & Biaya -->
+                        <div class="flex items-start justify-between gap-2 border-b border-slate-100 dark:border-slate-800/80 pb-2.5">
+                            <div>
+                                <span class="font-extrabold text-slate-800 dark:text-white text-xs block">
+                                    {{ $log->service_date_formatted }}
+                                </span>
+                                <div class="text-[10px] text-slate-400 flex items-center space-x-1 mt-0.5">
+                                    <i data-lucide="map-pin" class="w-3 h-3 text-slate-400"></i>
+                                    <span class="truncate max-w-[150px]">{{ $log->workshop_name }}</span>
+                                </div>
+                            </div>
 
-                <!-- 2. Diagnosa Darurat -->
-                <a href="{{ route('diagnosa') }}" 
-                   class="group bg-brand-main hover:bg-brand-dark text-white rounded-3xl p-5 shadow-sm shadow-brand-main/15 transition transform hover:-translate-y-1 active:translate-y-0 flex flex-col justify-between min-h-[110px]">
-                    <div class="w-9 h-9 rounded-2xl bg-white/15 flex items-center justify-center text-white">
-                        <i data-lucide="stethoscope" class="w-5 h-5"></i>
-                    </div>
-                    <span class="font-extrabold text-xs sm:text-sm mt-3 leading-tight">
-                        Diagnosa Darurat
-                    </span>
-                </a>
+                            <div class="text-right">
+                                <span class="font-black text-brand-main dark:text-brand-accent text-sm block">
+                                    Rp {{ number_format($log->actual_cost, 0, ',', '.') }}
+                                </span>
+                                @if($log->is_verified)
+                                    <span class="inline-flex items-center space-x-1 px-2 py-0.5 rounded-full text-[9px] font-black bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800 mt-0.5">
+                                        <i data-lucide="shield-check" class="w-2.5 h-2.5"></i>
+                                        <span>Nota Asli</span>
+                                    </span>
+                                @else
+                                    <span class="text-[9px] text-slate-400 mt-0.5 block">Input Manual</span>
+                                @endif
+                            </div>
+                        </div>
 
-                <!-- 3. Riwayat Servis -->
-                <a href="{{ route('history') }}" 
-                   class="group bg-brand-main hover:bg-brand-dark text-white rounded-3xl p-5 shadow-sm shadow-brand-main/15 transition transform hover:-translate-y-1 active:translate-y-0 flex flex-col justify-between min-h-[110px]">
-                    <div class="w-9 h-9 rounded-2xl bg-white/15 flex items-center justify-center text-white">
-                        <i data-lucide="history" class="w-5 h-5"></i>
-                    </div>
-                    <span class="font-extrabold text-xs sm:text-sm mt-3 leading-tight">
-                        Riwayat Servis
-                    </span>
-                </a>
+                        <!-- Baris Tengah: Komponen yang Diservis -->
+                        <div>
+                            @if($log->part_names->isNotEmpty())
+                                <div class="flex flex-wrap gap-1.5">
+                                    @foreach($log->part_names as $partName)
+                                        <span class="inline-flex items-center space-x-1 px-2 py-0.5 rounded-lg text-[10px] font-bold bg-brand-secondary/30 dark:bg-brand-main/20 text-brand-main dark:text-brand-accent">
+                                            <i data-lucide="check" class="w-2.5 h-2.5"></i>
+                                            <span>{{ $partName }}</span>
+                                        </span>
+                                    @endforeach
+                                </div>
+                            @else
+                                <span class="text-[11px] font-bold text-slate-700 dark:text-slate-300">
+                                    Servis Berkala / Cek Umum
+                                </span>
+                            @endif
 
-                <!-- 4. Garasi Kendaraan -->
-                <a href="{{ route('garage') }}" 
-                   class="group bg-brand-main hover:bg-brand-dark text-white rounded-3xl p-5 shadow-sm shadow-brand-main/15 transition transform hover:-translate-y-1 active:translate-y-0 flex flex-col justify-between min-h-[110px]">
-                    <div class="w-9 h-9 rounded-2xl bg-white/15 flex items-center justify-center text-white">
-                        <i data-lucide="bike" class="w-5 h-5"></i>
-                    </div>
-                    <span class="font-extrabold text-xs sm:text-sm mt-3 leading-tight">
-                        Garasi Kendaraan
-                    </span>
-                </a>
+                            @if($log->notes)
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-2 bg-slate-50 dark:bg-slate-900/50 p-2 rounded-xl border border-slate-100 dark:border-slate-800/60 leading-relaxed">
+                                    {{ $log->notes }}
+                                </p>
+                            @endif
+                        </div>
 
+                        <!-- Baris Bawah: Odometer -->
+                        <div class="flex items-center justify-between pt-1 text-[11px] text-slate-400">
+                            <span>Jarak Tempuh Servis:</span>
+                            <span class="font-mono font-bold text-slate-700 dark:text-slate-300">
+                                {{ number_format($log->odometer_at_service, 0, ',', '.') }} KM
+                            </span>
+                        </div>
+                    </div>
+                @empty
+                    <div class="bg-white dark:bg-[#1E293B] rounded-2xl p-8 text-center text-slate-400 space-y-2 border border-slate-100 dark:border-slate-800">
+                        <i data-lucide="clipboard" class="w-6 h-6 mx-auto text-slate-400"></i>
+                        <p class="text-xs font-semibold text-slate-600 dark:text-slate-300">Belum ada riwayat servis untuk motor ini</p>
+                    </div>
+                @endforelse
+            </div>
+
+            <!-- 2. TAMPILAN DESKTOP/TABLET (Tabel Penuh Layar Lebar >= md) -->
+            <div class="hidden md:block bg-white dark:bg-[#1E293B] rounded-3xl border border-slate-200/80 dark:border-slate-700/70 shadow-sm overflow-hidden">
+                <div class="overflow-x-auto no-scrollbar">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="border-b border-slate-200/80 dark:border-slate-700/80 bg-slate-50 dark:bg-slate-900/80">
+                                <th class="py-3.5 px-5 text-[11px] font-bold text-slate-400 uppercase tracking-wider">Tanggal & Bengkel</th>
+                                <th class="py-3.5 px-5 text-[11px] font-bold text-slate-400 uppercase tracking-wider">Komponen & Catatan</th>
+                                <th class="py-3.5 px-5 text-[11px] font-bold text-slate-400 uppercase tracking-wider">Odometer</th>
+                                <th class="py-3.5 px-5 text-[11px] font-bold text-slate-400 uppercase tracking-wider">Status Nota</th>
+                                <th class="py-3.5 px-5 text-[11px] font-bold text-slate-400 uppercase tracking-wider text-right">Biaya Servis</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200/80 dark:divide-slate-700/70 text-xs">
+                            @forelse($recentServiceLogs as $log)
+                                <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition">
+                                    <!-- Tanggal & Bengkel -->
+                                    <td class="py-4 px-5 align-top">
+                                        <div class="font-extrabold text-slate-800 dark:text-white text-xs">
+                                            {{ $log->service_date_formatted }}
+                                        </div>
+                                        <div class="text-[11px] text-slate-400 flex items-center space-x-1 mt-0.5">
+                                            <i data-lucide="map-pin" class="w-3 h-3 text-slate-400"></i>
+                                            <span>{{ $log->workshop_name }}</span>
+                                        </div>
+                                    </td>
+
+                                    <!-- Komponen & Catatan -->
+                                    <td class="py-4 px-5 align-top max-w-xs">
+                                        @if($log->part_names->isNotEmpty())
+                                            <div class="flex flex-wrap gap-1 mb-1">
+                                                @foreach($log->part_names as $partName)
+                                                    <span class="inline-flex items-center space-x-1 px-2 py-0.5 rounded-md text-[10px] font-bold bg-brand-secondary/30 dark:bg-brand-main/20 text-brand-main dark:text-brand-accent">
+                                                        <i data-lucide="check" class="w-2.5 h-2.5"></i>
+                                                        <span>{{ $partName }}</span>
+                                                    </span>
+                                                @endforeach
+                                            </div>
+                                        @else
+                                            <span class="font-bold text-slate-700 dark:text-slate-300 block mb-0.5">
+                                                Servis Berkala / Cek Umum
+                                            </span>
+                                        @endif
+
+                                        @if($log->notes)
+                                            <p class="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-1">
+                                                {{ $log->notes }}
+                                            </p>
+                                        @endif
+                                    </td>
+
+                                    <!-- Odometer -->
+                                    <td class="py-4 px-5 align-top font-mono font-bold text-slate-700 dark:text-slate-300">
+                                        {{ number_format($log->odometer_at_service, 0, ',', '.') }} KM
+                                    </td>
+
+                                    <!-- Status Nota -->
+                                    <td class="py-4 px-5 align-top">
+                                        @if($log->is_verified)
+                                            <span class="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full text-[10px] font-black bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800">
+                                                <i data-lucide="shield-check" class="w-3 h-3"></i>
+                                                <span>Nota Terverifikasi</span>
+                                            </span>
+                                        @else
+                                            <span class="inline-flex items-center space-x-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">
+                                                <span>Manual</span>
+                                            </span>
+                                        @endif
+                                    </td>
+
+                                    <!-- Biaya Servis -->
+                                    <td class="py-4 px-5 align-top text-right font-black text-brand-main dark:text-brand-accent text-sm">
+                                        Rp {{ number_format($log->actual_cost, 0, ',', '.') }}
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="5" class="py-10 text-center text-slate-400 space-y-2">
+                                        <div class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center mx-auto text-slate-400">
+                                            <i data-lucide="clipboard" class="w-5 h-5"></i>
+                                        </div>
+                                        <p class="text-xs font-semibold text-slate-600 dark:text-slate-300">Belum ada riwayat servis untuk kendaraan ini</p>
+                                        <p class="text-[11px] text-slate-400">Gunakan tombol "Scan Nota Servis" di atas untuk mencatat servis pertama.</p>
+                                    </td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
+
+
 
     @endif
 
