@@ -44,12 +44,16 @@
                               x-text="delayMonths === 1 ? '1 Bulan (Standar)' : delayMonths + ' Bulan'">
                         </span>
                     </div>
-                    <input type="range" 
-                           min="1" 
-                           max="6" 
-                           step="1" 
-                           x-model.number="delayMonths" 
-                           class="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-brand-main">
+                    <!-- Track Range Slider Dinamis dengan Aksen Warna Brand Mengikuti Posisi Slider -->
+                    <div class="relative flex items-center">
+                        <input type="range" 
+                               min="1" 
+                               max="6" 
+                               step="1" 
+                               x-model.number="delayMonths" 
+                               :style="`background: linear-gradient(to right, rgb(var(--color-brand-main)) ${((delayMonths - 1) / 5) * 100}%, rgba(100, 116, 139, 0.28) ${((delayMonths - 1) / 5) * 100}%);`"
+                               class="w-full h-2.5 rounded-full appearance-none cursor-pointer accent-brand-main dark:accent-brand-accent transition-all duration-150">
+                    </div>
                     <div class="flex justify-between text-[10px] text-slate-400 mt-1 font-medium">
                         <span>1 Bln</span>
                         <span>2 Bln</span>
