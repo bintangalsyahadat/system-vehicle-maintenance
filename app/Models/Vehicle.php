@@ -111,7 +111,8 @@ class Vehicle extends Model
                 3 => 'Busi',
                 4 => 'Kampas Rem',
                 5 => 'V-Belt',
-                default => explode(' ', $item->item_name)[0]
+                6 => 'Filter Udara',
+                default => (str_contains(strtolower($item->item_name), 'filter') ? 'Filter Udara' : explode(' ', $item->item_name)[0])
             };
 
             return (object) [

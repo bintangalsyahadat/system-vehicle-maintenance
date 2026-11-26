@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiagnosaController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\ProfileController;
@@ -20,9 +21,9 @@ Route::get('/', function () {
 // 4 Menu Utama SERVISA (Protected by Auth)
 Route::middleware(['auth', 'verified'])->group(function () {
     // Menu 1: Dashboard Servis (Dev 1 - Lead)
-    Route::get('/dashboard', function () {
-        return view('pages.dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::post('/dashboard/reminders', [DashboardController::class, 'storeOrUpdateReminder'])->name('dashboard.reminders.store');
+    Route::post('/dashboard/quick-service', [DashboardController::class, 'quickService'])->name('dashboard.quickService');
 
     // Menu 2: Kalkulator Kerugian (Dev 3)
     Route::get('/kalkulator', function () {
@@ -37,6 +38,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Menu 4: Riwayat & Paspor PDF (Dev 4)
     Route::get('/riwayat', [HistoryController::class, 'index'])->name('history');
     Route::post('/riwayat/service-logs', [HistoryController::class, 'storeLog'])->name('history.storeLog');
+    Route::post('/riwayat/scan-receipt', [HistoryController::class, 'scanReceipt'])->name('history.scanReceipt');
+    Route::put('/riwayat/service-logs', [HistoryController::class, 'updateLog'])->name('history.updateLog');
+    Route::delete('/riwayat/service-logs', [HistoryController::class, 'destroyLog'])->name('history.destroyLog');
     Route::patch('/riwayat/ai-scans/{aiScan}/resolve', [HistoryController::class, 'resolveAiScan'])->name('history.resolveAiScan');
     Route::get('/vehicles/{vehicle}/passport', [HistoryController::class, 'printPassport'])->name('history.passport');
 
