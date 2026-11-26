@@ -85,6 +85,15 @@ class DatabaseSeeder extends Seeder
                 'neglect_cost' => 650000,
                 'neglect_impact_desc' => 'Karet retak berisiko putus di tengah kecepatan tinggi, mengunci transmisi roda dan membahayakan keselamatan.',
             ],
+            [
+                'vehicle_type' => 'motor',
+                'item_name' => 'Filter Udara (Air Cleaner)',
+                'interval_km' => 16000,
+                'interval_months' => 16,
+                'routine_cost' => 55000,
+                'neglect_cost' => 350000,
+                'neglect_impact_desc' => 'Filter udara tersumbat debu pekat membuat pasokan udara mesin tercekik, tarikan berat, dan konsumsi bensin boros.',
+            ],
         ];
 
         $createdItems = [];

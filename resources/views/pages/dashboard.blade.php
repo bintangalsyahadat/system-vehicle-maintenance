@@ -5,7 +5,7 @@
 @section('greeting', $timeGreeting . ', ' . $userName . '!')
 
 @section('content')
-<div class="space-y-8" x-data="dashboardManager(@js($calendarEvents), '{{ now()->format('Y-m-d') }}', {{ now()->year }}, {{ now()->month - 1 }})">
+<div class="space-y-8" x-data="dashboardManager('{{ now()->format('Y-m-d') }}')">
 
     <!-- Flash Messages (Notifikasi Kustom) -->
     @if (session('success'))
@@ -328,210 +328,78 @@
 
             </div>
 
-            <!-- KOLOM KANAN: KALENDER SERVIS INTERAKTIF -->
+            <!-- ==================== KOLOM KANAN: KARTU KOMPONEN KESEHATAN (GRID 2 KOLOM) ==================== -->
             <div class="lg:col-span-5">
-                <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-6 sm:p-7 border border-slate-100 dark:border-slate-800 shadow-sm transition-colors space-y-5">
-                    
-                    <!-- Judul & Subtitle Kalender -->
-                    <div>
-                        <h2 class="text-lg font-black text-slate-800 dark:text-white">Kalender Servis</h2>
-                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
-                            Tanggal bertanda adalah prediksi servis komponen oleh AI.
-                        </p>
-                    </div>
-
-                    <!-- Header Navigasi Bulan & Tahun -->
-                    <div class="flex items-center justify-between py-2 border-y border-slate-100 dark:border-slate-800">
-                        <button type="button"
-                                @click="calendar.prevMonth()" 
-                                class="w-8 h-8 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400 transition"
-                                title="Bulan Sebelumnya">
-                            <i data-lucide="chevron-left" class="w-4 h-4"></i>
-                        </button>
-
-                        <span class="text-sm font-bold text-slate-800 dark:text-white" 
-                              x-text="calendar.monthNames[calendar.month] + ' ' + calendar.year">
-                        </span>
-
-                        <button type="button"
-                                @click="calendar.nextMonth()" 
-                                class="w-8 h-8 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400 transition"
-                                title="Bulan Berikutnya">
-                            <i data-lucide="chevron-right" class="w-4 h-4"></i>
-                        </button>
-                    </div>
-
-                    <!-- Kalender Grid -->
-                    <div>
-                        <!-- Header Hari (Sen - Min) -->
-                        <div class="grid grid-cols-7 gap-1 text-center text-xs font-semibold text-slate-400 mb-2">
-                            <template x-for="dayName in calendar.dayNames" :key="dayName">
-                                <span class="py-1" x-text="dayName"></span>
-                            </template>
-                        </div>
-
-                        <!-- Grid Tanggal -->
-                        <div class="grid grid-cols-7 gap-1 text-center">
-                            <template x-for="(day, idx) in calendar.getDays()" :key="idx">
-                                <div class="min-h-[46px] flex flex-col items-center justify-start p-0.5">
-                                    <template x-if="day.dayNumber">
-                                        <button type="button"
-                                                @click="calendar.selectDate(day.dateKey)"
-                                                class="w-full flex flex-col items-center justify-center py-1 rounded-xl transition relative group">
-                                            
-                                            <!-- Lingkaran Tanggal -->
-                                            <div class="w-7 h-7 flex items-center justify-center text-xs rounded-full font-bold transition"
-                                                 :class="{
-                                                     'bg-brand-main text-white shadow-sm shadow-brand-main/30': day.hasEvent,
-                                                     'ring-2 ring-brand-main text-brand-main dark:text-brand-accent': day.isToday && !day.hasEvent,
-                                                     'bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white': day.isSelected && !day.hasEvent && !day.isToday,
-                                                     'text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50': !day.hasEvent && !day.isToday && !day.isSelected
-                                                 }">
-                                                <span x-text="day.dayNumber"></span>
-                                            </div>
-
-                                            <!-- Indikator Titik Status di Bawah Tanggal -->
-                                            <template x-if="day.hasEvent">
-                                                <div class="flex items-center justify-center space-x-0.5 mt-1">
-                                                    <span class="w-1.5 h-1.5 rounded-full bg-brand-main dark:bg-brand-accent"></span>
-                                                </div>
-                                            </template>
-                                        </button>
-                                    </template>
-                                </div>
-                            </template>
-                        </div>
-                    </div>
-
-                    <!-- Panel Keterangan Tanggal Terpilih (Bottom Date Box) -->
-                    <div class="bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-4 border border-slate-100 dark:border-slate-800 transition-colors">
-                        <div class="flex items-center justify-between">
-                            <span class="text-xs font-black text-slate-800 dark:text-white" 
-                                  x-text="calendar.formatDateIndo(calendar.selectedDate)">
-                            </span>
-                            <template x-if="calendar.events[calendar.selectedDate]">
-                                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-brand-secondary/40 text-brand-main dark:bg-brand-main/20 dark:text-brand-accent">
-                                    Prediksi Servis
-                                </span>
-                            </template>
-                        </div>
-
-                        <!-- Jika Ada Jadwal di Tanggal Terpilih -->
-                        <template x-if="calendar.events[calendar.selectedDate]">
-                            <div class="mt-3 space-y-2">
-                                <template x-for="evt in calendar.events[calendar.selectedDate]" :key="evt.id">
-                                    <div class="flex items-center justify-between bg-white dark:bg-slate-800 p-2.5 rounded-xl border border-slate-100 dark:border-slate-700/60">
-                                        <div class="flex items-center space-x-2">
-                                            <i data-lucide="wrench" class="w-3.5 h-3.5 text-brand-main dark:text-brand-accent"></i>
-                                            <span class="text-xs font-bold text-slate-800 dark:text-white" x-text="evt.title"></span>
-                                        </div>
-                                        <span class="text-[10px] font-bold px-2 py-0.5 rounded-full" 
-                                              :class="{
-                                                  'bg-rose-100 text-rose-700 dark:bg-rose-950/40 dark:text-rose-400': evt.status === 'danger',
-                                                  'bg-amber-100 text-amber-700 dark:bg-amber-950/40 dark:text-amber-400': evt.status === 'warning',
-                                                  'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400': evt.status === 'safe'
-                                              }" 
-                                              x-text="evt.status_label">
-                                        </span>
+                <!-- Grid 2 Kolom Konsisten untuk 6 Komponen Vital -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                    @foreach ($parts as $part)
+                        <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-4 sm:p-5 border border-slate-100 dark:border-slate-800 shadow-sm flex flex-col justify-between hover:shadow-md transition-all group">
+                            <div>
+                                <!-- Header Kartu: Icon & Status Badge -->
+                                <div class="flex items-center justify-between">
+                                    <div class="w-8 h-8 rounded-2xl bg-brand-secondary/30 dark:bg-brand-main/20 flex items-center justify-center text-brand-main dark:text-brand-accent">
+                                        <i data-lucide="{{ $part->icon }}" class="w-4 h-4"></i>
                                     </div>
-                                </template>
+
+                                    <!-- Status Badge (Kritis, Waspada, Aman) -->
+                                    @if ($part->status === 'danger')
+                                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-800/60">
+                                            {{ $part->status_label }}
+                                        </span>
+                                    @elseif ($part->status === 'warning')
+                                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-800/60">
+                                            {{ $part->status_label }}
+                                        </span>
+                                    @else
+                                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60">
+                                            {{ $part->status_label }}
+                                        </span>
+                                    @endif
+                                </div>
+
+                                <!-- Nama Komponen -->
+                                <h4 class="font-black text-sm text-slate-800 dark:text-white mt-3 truncate" title="{{ $part->name }}">
+                                    {{ $part->short_name }}
+                                </h4>
+
+                                <!-- Prediksi Tanggal Servis -->
+                                <div class="mt-2">
+                                    <span class="text-[10px] font-medium text-slate-400 block leading-tight">Prediksi servis</span>
+                                    <span class="text-xs font-bold text-slate-700 dark:text-slate-200 block mt-0.5 truncate">
+                                        {{ $part->predicted_date_formatted }}
+                                    </span>
+                                </div>
+
+                                <!-- Progress Bar Kesehatan Part -->
+                                <div class="w-full h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full mt-3 overflow-hidden">
+                                    <div class="h-full rounded-full transition-all duration-500 {{ $part->status === 'danger' ? 'bg-rose-500' : ($part->status === 'warning' ? 'bg-amber-500' : 'bg-emerald-500') }}" 
+                                         style="width: {{ $part->percentage }}%"></div>
+                                </div>
                             </div>
-                        </template>
 
-                        <!-- Jika Tidak Ada Jadwal -->
-                        <template x-if="!calendar.events[calendar.selectedDate]">
-                            <p class="text-xs text-slate-400 dark:text-slate-500 mt-1">
-                                Tidak ada jadwal servis.
-                            </p>
-                        </template>
-                    </div>
+                            <!-- Action Buttons di Bawah Kartu -->
+                            <div class="mt-4 space-y-2">
+                                @if ($part->status === 'danger' || $part->status === 'warning')
+                                    <button type="button"
+                                            @click="openQuickServiceModal({{ json_encode($part) }})" 
+                                            class="w-full py-2 px-3 rounded-full bg-brand-main hover:bg-brand-dark text-white font-bold text-xs flex items-center justify-center space-x-1.5 shadow-sm shadow-brand-main/20 transition hover:scale-[1.02] active:scale-[0.98]">
+                                        <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                                        <span>Sudah diservis</span>
+                                    </button>
+                                @endif
 
+                                <button type="button"
+                                        @click="openEditDateModal({{ json_encode($part) }})" 
+                                        class="w-full py-2 px-3 rounded-full border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold text-xs flex items-center justify-center space-x-1.5 transition">
+                                    <i data-lucide="calendar" class="w-3.5 h-3.5 text-slate-400"></i>
+                                    <span>Ubah tanggal</span>
+                                </button>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
             </div>
 
-        </div>
-
-        <!-- ==================== 2. BAGIAN TENGAH: KESEHATAN KENDARAAN (5 PART VITAL) ==================== -->
-        <div class="space-y-4">
-            <div>
-                <h2 class="text-xl font-black text-slate-800 dark:text-white tracking-tight">Kesehatan Kendaraan</h2>
-                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed max-w-4xl">
-                    Pantau kondisi oli mesin, oli gardan, busi, kampas rem, dan v-belt motor Anda. Tanggal servis diprediksi otomatis dari estimasi {{ $activeVehicle->daily_average_km }} KM per hari, jadi Anda tahu kapan perlu merawatnya sebelum terlambat.
-                </p>
-            </div>
-
-            <!-- Grid Kartu Komponen -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-                
-                @foreach ($parts as $part)
-                    <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-5 border border-slate-100 dark:border-slate-800 shadow-sm flex flex-col justify-between hover:shadow-md transition-all group">
-                        <div>
-                            <!-- Header Kartu: Icon & Status Badge -->
-                            <div class="flex items-center justify-between">
-                                <div class="w-9 h-9 rounded-2xl bg-brand-secondary/30 dark:bg-brand-main/20 flex items-center justify-center text-brand-main dark:text-brand-accent">
-                                    <i data-lucide="{{ $part->icon }}" class="w-4 h-4"></i>
-                                </div>
-
-                                <!-- Status Badge (Kritis, Waspada, Aman) -->
-                                @if ($part->status === 'danger')
-                                    <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-800/60">
-                                        {{ $part->status_label }}
-                                    </span>
-                                @elseif ($part->status === 'warning')
-                                    <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-800/60">
-                                        {{ $part->status_label }}
-                                    </span>
-                                @else
-                                    <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60">
-                                        {{ $part->status_label }}
-                                    </span>
-                                @endif
-                            </div>
-
-                            <!-- Nama Komponen -->
-                            <h4 class="font-black text-sm text-slate-800 dark:text-white mt-3 truncate" title="{{ $part->name }}">
-                                {{ $part->short_name }}
-                            </h4>
-
-                            <!-- Prediksi Tanggal Servis -->
-                            <div class="mt-2">
-                                <span class="text-[10px] font-medium text-slate-400 block leading-tight">Prediksi servis</span>
-                                <span class="text-xs font-bold text-slate-700 dark:text-slate-200 block mt-0.5">
-                                    {{ $part->predicted_date_formatted }}
-                                </span>
-                            </div>
-
-                            <!-- Progress Bar Kesehatan Part -->
-                            <div class="w-full h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full mt-3 overflow-hidden">
-                                <div class="h-full rounded-full transition-all duration-500 {{ $part->status === 'danger' ? 'bg-rose-500' : ($part->status === 'warning' ? 'bg-amber-500' : 'bg-emerald-500') }}" 
-                                     style="width: {{ $part->percentage }}%"></div>
-                            </div>
-                        </div>
-
-                        <!-- Action Buttons di Bawah Kartu -->
-                        <div class="mt-5 space-y-2">
-                            @if ($part->status === 'danger' || $part->status === 'warning')
-                                <!-- Tombol Sudah Diservis (Solid Brand) -->
-                                <button type="button"
-                                        @click="openQuickServiceModal({{ json_encode($part) }})" 
-                                        class="w-full py-2 px-3 rounded-full bg-brand-main hover:bg-brand-dark text-white font-bold text-xs flex items-center justify-center space-x-1.5 shadow-sm shadow-brand-main/20 transition hover:scale-[1.02] active:scale-[0.98]">
-                                    <i data-lucide="check" class="w-3.5 h-3.5"></i>
-                                    <span>Sudah diservis</span>
-                                </button>
-                            @endif
-
-                            <!-- Tombol Ubah Tanggal (Outline Button) -->
-                            <button type="button"
-                                    @click="openEditDateModal({{ json_encode($part) }})" 
-                                    class="w-full py-2 px-3 rounded-full border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold text-xs flex items-center justify-center space-x-1.5 transition">
-                                <i data-lucide="calendar" class="w-3.5 h-3.5 text-slate-400"></i>
-                                <span>Ubah tanggal</span>
-                            </button>
-                        </div>
-                    </div>
-                @endforeach
-
-            </div>
         </div>
 
         <!-- ==================== 3. BAGIAN BAWAH: AKSI CEPAT ==================== -->
@@ -936,78 +804,6 @@
                     }
                 });
             },
-
-            calendar: {
-                year: currentYear,
-                month: currentMonth,
-                today: todayStr,
-                selectedDate: todayStr,
-                events: eventsData || {},
-                monthNames: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
-                dayNames: ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'],
-
-                prevMonth() {
-                    if (this.month === 0) {
-                        this.month = 11;
-                        this.year--;
-                    } else {
-                        this.month--;
-                    }
-                    setTimeout(() => window.lucide && window.lucide.createIcons(), 50);
-                },
-
-                nextMonth() {
-                    if (this.month === 11) {
-                        this.month = 0;
-                        this.year++;
-                    } else {
-                        this.month++;
-                    }
-                    setTimeout(() => window.lucide && window.lucide.createIcons(), 50);
-                },
-
-                getDays() {
-                    const firstDayIndex = new Date(this.year, this.month, 1).getDay();
-                    const startingDay = firstDayIndex === 0 ? 6 : firstDayIndex - 1;
-                    const daysInMonth = new Date(this.year, this.month + 1, 0).getDate();
-
-                    const days = [];
-                    for (let i = 0; i < startingDay; i++) {
-                        days.push({ dayNumber: null, dateKey: null });
-                    }
-
-                    for (let d = 1; d <= daysInMonth; d++) {
-                        const mm = String(this.month + 1).padStart(2, '0');
-                        const dd = String(d).padStart(2, '0');
-                        const dateKey = this.year + '-' + mm + '-' + dd;
-                        days.push({
-                            dayNumber: d,
-                            dateKey: dateKey,
-                            isToday: dateKey === this.today,
-                            isSelected: dateKey === this.selectedDate,
-                            hasEvent: !!this.events[dateKey],
-                            eventList: this.events[dateKey] || []
-                        });
-                    }
-                    return days;
-                },
-
-                selectDate(dateKey) {
-                    if (dateKey) {
-                        this.selectedDate = dateKey;
-                        setTimeout(() => window.lucide && window.lucide.createIcons(), 50);
-                    }
-                },
-
-                formatDateIndo(dateStr) {
-                    if (!dateStr) return '';
-                    const parts = dateStr.split('-');
-                    if (parts.length !== 3) return dateStr;
-                    const d = new Date(parts[0], parts[1] - 1, parts[2]);
-                    const dayNamesLong = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-                    return dayNamesLong[d.getDay()] + ', ' + parseInt(parts[2], 10) + ' ' + this.monthNames[d.getMonth()] + ' ' + parts[0];
-                }
-            }
         };
     }
 

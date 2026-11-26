@@ -76,7 +76,8 @@ class DashboardController extends Controller
                 3 => 'zap',            // Busi
                 4 => 'shield-alert',   // Kampas Rem
                 5 => 'refresh-cw',     // V-Belt
-                default => 'wrench',
+                6 => 'wind',           // Filter Udara
+                default => (str_contains(strtolower($part->name), 'filter') ? 'wind' : 'wrench'),
             };
 
             // Gunakan status murni dari Vehicle Model (>40% safe, 15-40% warning, <15% danger)
