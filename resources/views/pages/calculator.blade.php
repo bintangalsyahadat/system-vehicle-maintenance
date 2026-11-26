@@ -100,103 +100,110 @@
 
             </div>
 
-            <!-- KARTU 3: DAMPAK FINANSIAL & GRAFIK BATANG (BAR CHART) -->
-            <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-6 sm:p-7 border border-slate-100 dark:border-slate-700/80 shadow-sm transition-colors space-y-4">
-                
-                <div>
-                    <h3 class="text-base font-black text-slate-800 dark:text-white">Dampak Finansial</h3>
-                    <span class="text-xs text-slate-400 font-medium block mt-1">Estimasi biaya tambahan</span>
-                    
-                    <div class="text-3xl sm:text-4xl font-black text-brand-main dark:text-brand-accent tracking-tight mt-1.5" 
-                         x-text="'+' + formatRupiah(additionalCost)">
-                    </div>
-                    
-                    <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 mt-1">
-                        Anda berpotensi membayar <span class="font-extrabold text-slate-800 dark:text-white" x-text="costMultiplier + 'x lebih mahal.'"></span>
-                    </p>
-                </div>
-
-                <!-- Wadah Visualisasi Grafik Batang (Persis Desain Foto) -->
-                <div class="bg-slate-50/80 dark:bg-slate-900/60 rounded-2xl p-6 border border-slate-100 dark:border-slate-700/80 mt-4">
-                    <div class="flex items-end justify-center space-x-12 sm:space-x-16 min-h-[160px] pt-6 pb-2">
-                        
-                        <!-- Batang 1: Tepat Waktu (Hijau) -->
-                        <div class="flex flex-col items-center">
-                            <span class="text-xs font-bold text-slate-700 dark:text-slate-300 mb-2 leading-none" 
-                                  x-text="formatRupiah(routineCost)">
-                            </span>
-                            <div class="w-20 sm:w-24 bg-emerald-500 rounded-t-xl transition-all duration-500 shadow-sm" 
-                                 :style="'height: ' + barHeightRoutine + 'px; min-height: 14px;'">
-                            </div>
-                            <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 mt-2.5">
-                                Tepat waktu
-                            </span>
-                        </div>
-
-                        <!-- Batang 2: Diabaikan (Merah / Brand) -->
-                        <div class="flex flex-col items-center">
-                            <span class="text-xs font-bold text-slate-700 dark:text-slate-300 mb-2 leading-none" 
-                                  x-text="formatRupiah(neglectCost)">
-                            </span>
-                            <div class="w-20 sm:w-24 bg-brand-main rounded-t-xl transition-all duration-500 shadow-md shadow-brand-main/20" 
-                                 :style="'height: ' + barHeightNeglect + 'px; min-height: 50px;'">
-                            </div>
-                            <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 mt-2.5">
-                                Diabaikan
-                            </span>
-                        </div>
-
-                    </div>
-                </div>
-
-            </div>
-
         </div>
 
         <!-- ==================== KOLOM KANAN (LINGKUNGAN & SDG 12) ==================== -->
         <div class="lg:col-span-5">
-            <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-6 sm:p-7 border border-slate-100 dark:border-slate-700/80 shadow-sm transition-colors space-y-6">
+            <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-6 sm:p-7 border border-slate-100 dark:border-slate-700/80 shadow-sm transition-colors space-y-6 flex flex-col justify-between h-full">
                 
-                <!-- Header Card: Tag Lingkungan & SDG 12 Badge -->
-                <div class="flex items-center justify-between">
-                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Lingkungan</span>
-                    <span class="bg-slate-900 dark:bg-slate-800/90 text-white text-[11px] font-black px-3 py-1 rounded-full uppercase tracking-wider border border-slate-700/80 dark:border-slate-600/70 shadow-sm">
-                        SDG 12
+                <div>
+                    <!-- Header Card: Tag Lingkungan & SDG 12 Badge -->
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Lingkungan</span>
+                        <span class="bg-slate-900 dark:bg-slate-800/90 text-white text-[11px] font-black px-3 py-1 rounded-full uppercase tracking-wider border border-slate-700/80 dark:border-slate-600/70 shadow-sm">
+                            SDG 12
+                        </span>
+                    </div>
+
+                    <!-- Judul & Deskripsi Lingkungan -->
+                    <div class="space-y-2 mt-4">
+                        <h2 class="text-lg font-black text-slate-800 dark:text-white">
+                            Dampak Terhadap Lingkungan
+                        </h2>
+                        <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed" 
+                           x-text="currentItem ? currentItem.environmental_desc : ''">
+                        </p>
+                    </div>
+                </div>
+
+                <div>
+                    <!-- 2 Metrik Status (Limbah Logam & Zat Berbahaya) -->
+                    <div class="grid grid-cols-2 gap-4 py-4 border-y border-slate-100 dark:border-slate-700/80 mb-5">
+                        <div>
+                            <span class="text-xs text-slate-400 font-medium block">Limbah logam</span>
+                            <span class="text-sm sm:text-base font-extrabold text-slate-800 dark:text-white mt-0.5 block" 
+                                  x-text="currentItem ? currentItem.metal_waste : 'Meningkat'">
+                            </span>
+                        </div>
+
+                        <div>
+                            <span class="text-xs text-slate-400 font-medium block">Zat berbahaya</span>
+                            <span class="text-sm sm:text-base font-extrabold text-slate-800 dark:text-white mt-0.5 block" 
+                                  x-text="currentItem ? currentItem.hazardous_substance : 'Berisiko'">
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Quote Box / Kotak Edukasi SDG 12 di Bagian Bawah -->
+                    <div class="bg-slate-50/80 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/80 rounded-2xl p-5 transition-colors">
+                        <p class="text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-200 leading-relaxed">
+                            Merawat kendaraan tepat waktu bukan hanya menghemat biaya, tetapi juga membantu mengurangi limbah.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ==================== BAGIAN BAWAH: DAMPAK FINANSIAL & GRAFIK KOMPARASI FULL WIDTH ==================== -->
+    <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-6 sm:p-8 border border-slate-100 dark:border-slate-700/80 shadow-sm transition-colors space-y-6">
+        
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 dark:border-slate-700/80 pb-5">
+            <div>
+                <h3 class="text-lg sm:text-xl font-black text-slate-800 dark:text-white">Dampak Finansial</h3>
+                <span class="text-xs text-slate-400 font-medium block mt-0.5">Estimasi kerugian dan pemborosan biaya tambahan</span>
+            </div>
+            
+            <div class="flex flex-col sm:items-end">
+                <div class="text-3xl sm:text-4xl font-black text-brand-main dark:text-brand-accent tracking-tight" 
+                     x-text="'+' + formatRupiah(additionalCost)">
+                </div>
+                <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 mt-0.5">
+                    Anda berpotensi membayar <span class="font-extrabold text-slate-800 dark:text-white" x-text="costMultiplier + 'x lebih mahal.'"></span>
+                </p>
+            </div>
+        </div>
+
+        <!-- Wadah Visualisasi Grafik Batang Lebar Penuh (Full Width Chart) -->
+        <div class="bg-slate-50/80 dark:bg-slate-900/60 rounded-2xl p-6 sm:p-8 border border-slate-100 dark:border-slate-700/80">
+            <div class="flex items-end justify-center space-x-16 sm:space-x-32 min-h-[190px] pt-4 pb-2">
+                
+                <!-- Batang 1: Tepat Waktu (Hijau) -->
+                <div class="flex flex-col items-center">
+                    <span class="text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-300 mb-2 leading-none" 
+                          x-text="formatRupiah(routineCost)">
+                    </span>
+                    <div class="w-24 sm:w-36 bg-emerald-500 rounded-t-2xl transition-all duration-500 shadow-sm" 
+                         :style="'height: ' + barHeightRoutine + 'px; min-height: 18px;'">
+                    </div>
+                    <span class="text-xs sm:text-sm font-bold text-slate-600 dark:text-slate-300 mt-3">
+                        Tepat waktu
                     </span>
                 </div>
 
-                <!-- Judul & Deskripsi Lingkungan -->
-                <div class="space-y-2">
-                    <h2 class="text-lg font-black text-slate-800 dark:text-white">
-                        Dampak Terhadap Lingkungan
-                    </h2>
-                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed" 
-                       x-text="currentItem ? currentItem.environmental_desc : ''">
-                    </p>
-                </div>
-
-                <!-- 2 Metrik Status (Limbah Logam & Zat Berbahaya) -->
-                <div class="grid grid-cols-2 gap-4 py-4 border-y border-slate-100 dark:border-slate-700/80">
-                    <div>
-                        <span class="text-xs text-slate-400 font-medium block">Limbah logam</span>
-                        <span class="text-sm sm:text-base font-extrabold text-slate-800 dark:text-white mt-0.5 block" 
-                              x-text="currentItem ? currentItem.metal_waste : 'Meningkat'">
-                        </span>
+                <!-- Batang 2: Diabaikan (Merah / Brand) -->
+                <div class="flex flex-col items-center">
+                    <span class="text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-300 mb-2 leading-none" 
+                          x-text="formatRupiah(neglectCost)">
+                    </span>
+                    <div class="w-24 sm:w-36 bg-brand-main rounded-t-2xl transition-all duration-500 shadow-md shadow-brand-main/25" 
+                         :style="'height: ' + barHeightNeglect + 'px; min-height: 50px;'">
                     </div>
-
-                    <div>
-                        <span class="text-xs text-slate-400 font-medium block">Zat berbahaya</span>
-                        <span class="text-sm sm:text-base font-extrabold text-slate-800 dark:text-white mt-0.5 block" 
-                              x-text="currentItem ? currentItem.hazardous_substance : 'Berisiko'">
-                        </span>
-                    </div>
-                </div>
-
-                <!-- Quote Box / Kotak Edukasi SDG 12 di Bagian Bawah -->
-                <div class="bg-slate-50/80 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/80 rounded-2xl p-5 transition-colors">
-                    <p class="text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-200 leading-relaxed">
-                        Merawat kendaraan tepat waktu bukan hanya menghemat biaya, tetapi juga membantu mengurangi limbah.
-                    </p>
+                    <span class="text-xs sm:text-sm font-bold text-slate-600 dark:text-slate-300 mt-3">
+                        Diabaikan
+                    </span>
                 </div>
 
             </div>
