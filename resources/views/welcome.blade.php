@@ -232,7 +232,7 @@
         <div class="absolute -top-12 -right-20 sm:-top-24 sm:-right-24 w-80 h-80 sm:w-[500px] sm:h-[500px] lg:w-[650px] lg:h-[650px] bg-brand-secondary/35 dark:bg-brand-main/15 rounded-full pointer-events-none -z-0"></div>
         <div class="absolute -bottom-28 -left-20 w-72 h-72 sm:w-96 sm:h-96 bg-brand-secondary/25 dark:bg-brand-main/10 rounded-full blur-3xl pointer-events-none -z-0"></div>
 
-        <div class="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12 pt-10 sm:pt-14 lg:pt-20 pb-12 sm:pb-16 lg:pb-20 relative z-10">
+        <div class="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12 pt-10 sm:pt-14 lg:pt-20 pb-16 sm:pb-20 lg:pb-24 relative z-10">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 items-center">
                 <!-- Kolom Kiri: Ukuran Diperbesar Signifikan (Animasi: Show from Left) -->
                 <div class="lg:col-span-6 text-left reveal-left">
