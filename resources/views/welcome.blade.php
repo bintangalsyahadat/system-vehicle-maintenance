@@ -103,8 +103,8 @@
 <body class="font-sans antialiased bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col overflow-x-hidden transition-colors duration-200">
 
     <!-- ==================== 1. NAVBAR (Sticky, bg-brand-main/95 backdrop-blur-md text-white) ==================== -->
-    <header class="sticky top-0 z-50 bg-brand-main/95 backdrop-blur-md text-white shadow-md transition-colors duration-200 border-b border-white/10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 h-16 sm:h-20 flex items-center justify-between">
+    <header class="sticky top-0 z-50 bg-brand-main/95 backdrop-blur-md text-white shadow-md transition-colors duration-200 border-b border-white/10 w-full">
+        <div class="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12 h-16 sm:h-20 flex items-center justify-between">
             <!-- Left: Logo lingkaran putih + teks SERVISA -->
             <a href="{{ route('home') }}" class="flex items-center space-x-3 group select-none">
                 <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white flex items-center justify-center text-brand-main shadow-sm flex-shrink-0 transition-transform duration-300 group-hover:scale-105">
@@ -201,7 +201,7 @@
              x-transition:leave="transition ease-in duration-150"
              x-transition:leave-start="opacity-100 translate-y-0"
              x-transition:leave-end="opacity-0 -translate-y-2"
-             class="md:hidden bg-brand-main border-t border-white/20 px-4 pt-3 pb-6 space-y-3">
+             class="md:hidden bg-brand-main border-t border-white/20 px-6 pt-3 pb-6 space-y-3">
             <a href="#fitur" @click="mobileMenuOpen = false" class="block py-2 text-base font-semibold text-white/95 hover:text-white">Fitur</a>
             <a href="#hemat-biaya" @click="mobileMenuOpen = false" class="block py-2 text-base font-semibold text-white/95 hover:text-white">Hemat Biaya</a>
             <a href="#cara-kerja" @click="mobileMenuOpen = false" class="block py-2 text-base font-semibold text-white/95 hover:text-white">Cara Kerja</a>
@@ -227,21 +227,21 @@
 
 
     <!-- ==================== 2. HERO SECTION ==================== -->
-    <section class="relative bg-white dark:bg-slate-900 overflow-hidden transition-colors duration-200">
+    <section class="relative bg-white dark:bg-slate-900 overflow-hidden transition-colors duration-200 w-full">
         <!-- Aksen bentuk bulat lembut minimalis di sisi kanan (bg-brand-secondary/35 dark:bg-brand-main/15) -->
-        <div class="absolute -top-12 -right-20 sm:-top-24 sm:-right-24 w-80 h-80 sm:w-[500px] sm:h-[500px] lg:w-[600px] lg:h-[600px] bg-brand-secondary/35 dark:bg-brand-main/15 rounded-full pointer-events-none -z-0"></div>
+        <div class="absolute -top-12 -right-20 sm:-top-24 sm:-right-24 w-80 h-80 sm:w-[500px] sm:h-[500px] lg:w-[650px] lg:h-[650px] bg-brand-secondary/35 dark:bg-brand-main/15 rounded-full pointer-events-none -z-0"></div>
         <div class="absolute -bottom-28 -left-20 w-72 h-72 sm:w-96 sm:h-96 bg-brand-secondary/25 dark:bg-brand-main/10 rounded-full blur-3xl pointer-events-none -z-0"></div>
 
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-12 sm:py-16 lg:py-24 relative z-10">
+        <div class="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12 py-12 sm:py-16 lg:py-24 relative z-10">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 items-center">
                 <!-- Kolom Kiri (Animasi: Show from Left) -->
                 <div class="lg:col-span-6 text-left reveal-left">
-                    <h1 class="text-3xl sm:text-4xl lg:text-[46px] font-black text-slate-900 dark:text-white tracking-tight leading-[1.18]">
+                    <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white tracking-tight leading-[1.18]">
                         Servis tepat waktu,<br>
                         <span class="text-brand-main dark:text-brand-accent">biaya lebih hemat.</span>
                     </h1>
 
-                    <p class="mt-5 text-sm sm:text-base text-slate-500 dark:text-slate-400 leading-relaxed max-w-lg">
+                    <p class="mt-5 text-sm sm:text-base lg:text-lg text-slate-500 dark:text-slate-400 leading-relaxed max-w-xl">
                         SERVISA memprediksi jadwal servis motor dari pemakaian harian Anda, lalu mengingatkan sebelum terlambat.
                     </p>
 
@@ -262,35 +262,38 @@
 
                 <!-- Kolom Kanan (Animasi: Show from Right) -->
                 <div class="lg:col-span-6 flex justify-center lg:justify-end reveal-right">
-                    <div class="relative w-full max-w-md sm:max-w-lg">
+                    <div class="relative w-full max-w-md sm:max-w-lg lg:max-w-xl">
                         <!-- Floating Badge Kiri Atas: Kampas Rem - Perlu diganti (Delay reveal + subtle float) -->
                         <div class="absolute -top-3 -left-2 sm:-top-5 sm:-left-4 z-20 bg-white dark:bg-slate-800 rounded-2xl px-4 py-2.5 sm:px-5 sm:py-3 shadow-lg shadow-slate-200/50 dark:shadow-black/40 border border-slate-100 dark:border-slate-700/80 animate-subtle-float">
                             <span class="block text-[11px] font-medium text-slate-400 dark:text-slate-400">Kampas Rem</span>
                             <span class="block text-xs sm:text-sm font-bold text-brand-main dark:text-brand-accent">Perlu diganti</span>
                         </div>
 
-                        <!-- Kartu Putih Bersih Wadah Ilustrasi -->
-                        <div class="bg-white dark:bg-slate-800 rounded-2xl sm:rounded-3xl p-6 sm:p-10 shadow-lg shadow-slate-200/60 dark:shadow-black/40 border border-slate-100 dark:border-slate-700/80 flex items-center justify-center transition-all duration-300 hover:shadow-xl">
-                            <!-- Ilustrasi Motor Matic Minimalis Inline SVG (Sesuai Landing Page.jpg) -->
-                            <svg class="w-full h-48 sm:h-64 select-none drop-shadow-sm" viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <!-- Bayangan Tanah Lembut -->
-                                <ellipse cx="160" cy="180" rx="115" ry="7" fill="currentColor" class="text-slate-100 dark:text-slate-700/60" />
+                        <!-- Kartu Bersih Wadah Ilustrasi dengan Highlight Radial di Dark Mode -->
+                        <div class="relative bg-white dark:bg-slate-800 rounded-2xl sm:rounded-3xl p-6 sm:p-10 shadow-lg shadow-slate-200/60 dark:shadow-black/40 border border-slate-100 dark:border-slate-700/80 flex items-center justify-center transition-all duration-300 hover:shadow-xl overflow-hidden">
+                            <!-- Subtle Radial Glow / Highlight di Belakang Motor (Khusus Dark Mode agar Siluet Tegas & Kontras) -->
+                            <div class="absolute w-72 h-48 bg-brand-secondary/30 dark:bg-brand-main/20 rounded-full blur-2xl pointer-events-none -z-0"></div>
 
-                                <!-- Roda Belakang -->
-                                <circle cx="80" cy="150" r="26" fill="#1E293B" />
-                                <circle cx="80" cy="150" r="13" class="fill-white dark:fill-slate-800" />
-                                <circle cx="80" cy="150" r="4" fill="#64748B" />
+                            <!-- Ilustrasi Motor Matic Minimalis Inline SVG (Adaptif Light & Dark Mode) -->
+                            <svg class="w-full h-48 sm:h-64 select-none drop-shadow-sm relative z-10" viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Bayangan Tanah Lembut (Adaptif) -->
+                                <ellipse cx="160" cy="180" rx="115" ry="7" class="fill-slate-200/80 dark:fill-slate-700/80 transition-colors" />
 
-                                <!-- Roda Depan -->
-                                <circle cx="240" cy="150" r="26" fill="#1E293B" />
-                                <circle cx="240" cy="150" r="13" class="fill-white dark:fill-slate-800" />
-                                <circle cx="240" cy="150" r="4" fill="#64748B" />
+                                <!-- Roda Belakang (Ban luar adaptif: slate-900 di Light, slate-200 di Dark; Velg dalam: white di Light, slate-800 di Dark) -->
+                                <circle cx="80" cy="150" r="26" class="fill-slate-900 dark:fill-slate-200 transition-colors" />
+                                <circle cx="80" cy="150" r="13" class="fill-white dark:fill-slate-800 transition-colors" />
+                                <circle cx="80" cy="150" r="4" class="fill-slate-500 dark:fill-slate-400 transition-colors" />
 
-                                <!-- Front Fork / Suspensi Depan -->
-                                <line x1="240" y1="150" x2="225" y2="88" stroke="#1E293B" stroke-width="10" stroke-linecap="round" />
+                                <!-- Roda Depan (Ban luar adaptif: slate-900 di Light, slate-200 di Dark; Velg dalam: white di Light, slate-800 di Dark) -->
+                                <circle cx="240" cy="150" r="26" class="fill-slate-900 dark:fill-slate-200 transition-colors" />
+                                <circle cx="240" cy="150" r="13" class="fill-white dark:fill-slate-800 transition-colors" />
+                                <circle cx="240" cy="150" r="4" class="fill-slate-500 dark:fill-slate-400 transition-colors" />
+
+                                <!-- Front Fork / Suspensi Depan (Adaptif: kontras tinggi di Light & Dark) -->
+                                <line x1="240" y1="150" x2="225" y2="88" stroke="currentColor" class="text-slate-900 dark:text-slate-200 transition-colors" stroke-width="10" stroke-linecap="round" />
 
                                 <!-- Slebor / Fender Depan -->
-                                <path d="M228 142 C232 130 248 130 252 142" stroke="currentColor" class="text-brand-main" stroke-width="5" stroke-linecap="round" />
+                                <path d="M228 142 C232 130 248 130 252 142" stroke="currentColor" class="text-brand-main dark:text-brand-accent transition-colors" stroke-width="5" stroke-linecap="round" />
 
                                 <!-- Bodi Utama Skuter Minimalis (Fill Brand yang Dinamis Berganti Mengikuti Tema) -->
                                 <path d="M 88 150 
@@ -306,7 +309,7 @@
                                          L 126 124 
                                          C 108 124, 98 134, 96 150 
                                          Z" 
-                                      class="fill-brand-secondary" />
+                                      class="fill-brand-secondary dark:fill-brand-secondary/80 transition-colors" />
 
                                 <!-- Bodi Dek Atas / Sadel Bawah -->
                                 <path d="M 104 124 
@@ -318,17 +321,17 @@
                                          L 132 126 
                                          C 118 126, 108 126, 104 124 
                                          Z" 
-                                      class="fill-brand-main" opacity="0.9" />
+                                      class="fill-brand-main dark:fill-brand-main transition-colors" opacity="0.9" />
 
-                                <!-- Jok / Sadel Motor Ergonomis Horizontal -->
-                                <rect x="115" y="92" width="76" height="15" rx="7.5" fill="#1E293B" />
+                                <!-- Jok / Sadel Motor Ergonomis Horizontal (Adaptif: slate-900 di Light, slate-200 di Dark) -->
+                                <rect x="115" y="92" width="76" height="15" rx="7.5" class="fill-slate-900 dark:fill-slate-200 transition-colors" />
 
                                 <!-- Stang Kemudi & Panel Headlamp -->
-                                <path d="M 223 88 L 244 74" stroke="currentColor" class="text-brand-secondary" stroke-width="8" stroke-linecap="round" />
-                                <circle cx="225" cy="86" r="5" fill="#1E293B" />
+                                <path d="M 223 88 L 244 74" stroke="currentColor" class="text-brand-secondary dark:text-brand-accent transition-colors" stroke-width="8" stroke-linecap="round" />
+                                <circle cx="225" cy="86" r="5" class="fill-slate-900 dark:fill-slate-200 transition-colors" />
 
                                 <!-- Lampu Headlamp Cincin Kuning/Amber Minimalis -->
-                                <circle cx="250" cy="80" r="6" stroke="#F59E0B" stroke-width="3" fill="none" />
+                                <circle cx="250" cy="80" r="6" stroke="#F59E0B" class="dark:stroke-amber-400" stroke-width="3" fill="none" />
                             </svg>
                         </div>
 
@@ -346,7 +349,7 @@
 
     <!-- ==================== 3. SECTION FITUR (id="fitur", full-width bg-brand-main text-white) ==================== -->
     <section id="fitur" class="w-full bg-brand-main text-white py-16 sm:py-20 lg:py-24 transition-colors duration-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
+        <div class="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12">
             <!-- Eyebrow & Heading (Animasi: Show from Left) -->
             <div class="text-left mb-10 sm:mb-14 reveal-left">
                 <span class="block text-xs sm:text-sm font-semibold text-white/80 uppercase tracking-wider mb-2">Fitur</span>
@@ -415,7 +418,7 @@
 
     <!-- ==================== 4. SECTION HEMAT BIAYA (id="hemat-biaya", bg-white dark:bg-slate-900) ==================== -->
     <section id="hemat-biaya" class="w-full bg-white dark:bg-slate-900 py-16 sm:py-20 lg:py-24 transition-colors duration-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
+        <div class="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
                 <!-- Kiri (Animasi: Show from Left) -->
                 <div class="lg:col-span-6 text-left reveal-left">
@@ -459,7 +462,7 @@
 
     <!-- ==================== 5. SECTION CARA KERJA (id="cara-kerja", bg-white dark:bg-slate-900) ==================== -->
     <section id="cara-kerja" class="w-full bg-white dark:bg-slate-900 py-16 sm:py-20 transition-colors duration-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
+        <div class="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12">
             <!-- Eyebrow & Heading (Animasi: Show from Left) -->
             <div class="text-left mb-10 sm:mb-12 reveal-left">
                 <span class="block text-xs sm:text-sm font-bold text-brand-main dark:text-brand-accent uppercase tracking-wider mb-2">Cara kerja</span>
@@ -516,7 +519,7 @@
     <!-- ==================== 6. BOTTOM CTA & FOOTER (bg-brand-main text-white) ==================== -->
     <footer class="w-full bg-brand-main text-white transition-colors duration-200 mt-auto">
         <!-- Baris Atas: Siap merawat motor Anda? + Tombol Mulai Sekarang -->
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-12 sm:py-16">
+        <div class="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12 py-12 sm:py-16">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6 text-left">
                 <!-- Kiri (Animasi: Show from Left) -->
                 <div class="reveal-left">
@@ -542,7 +545,7 @@
         <div class="w-full border-t border-white/20"></div>
 
         <!-- Baris Bawah: Teks Footer Rata Tengah -->
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-8 text-center">
+        <div class="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12 py-8 text-center">
             <p class="text-xs sm:text-sm text-white/85 font-medium">
                 SERVISA. Perawatan kendaraan yang lebih tenang.
             </p>
