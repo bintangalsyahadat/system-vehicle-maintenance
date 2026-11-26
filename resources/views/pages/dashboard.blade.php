@@ -34,7 +34,7 @@
 
     @if (!$activeVehicle)
         <!-- Kondisi Jika Belum Ada Kendaraan di Garasi -->
-        <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-8 sm:p-12 text-center border border-slate-100 dark:border-slate-800 shadow-sm">
+        <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-8 sm:p-12 text-center border border-slate-100 dark:border-slate-700/80 shadow-sm">
             <div class="w-20 h-20 rounded-full bg-brand-secondary/40 dark:bg-brand-main/20 flex items-center justify-center text-brand-main dark:text-brand-accent mx-auto mb-4">
                 <i data-lucide="bike" class="w-10 h-10"></i>
             </div>
@@ -56,7 +56,7 @@
             <div class="lg:col-span-7 space-y-6">
                 
                 <!-- KARTU 1: SMART ODOMETER DECAY ENGINE -->
-                <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-6 sm:p-7 border border-slate-100 dark:border-slate-800 shadow-sm transition-colors relative overflow-hidden">
+                <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-6 sm:p-7 border border-slate-100 dark:border-slate-700/80 shadow-sm transition-colors relative overflow-hidden">
                     
                     <!-- Top Header Kartu Odometer -->
                     <div class="flex items-start justify-between">
@@ -320,7 +320,7 @@
                 <!-- Grid 2 Kolom Konsisten untuk 6 Komponen Vital -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                     @foreach ($parts as $part)
-                        <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-4 sm:p-5 border {{ ($closestPart && $closestPart->id === $part->id) ? 'border-brand-main/50 dark:border-brand-main/60 ring-2 ring-brand-main/15 shadow-md shadow-brand-main/5' : 'border-slate-100 dark:border-slate-800 shadow-sm' }} flex flex-col justify-between hover:shadow-md transition-all group">
+                        <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-4 sm:p-5 border {{ ($closestPart && $closestPart->id === $part->id) ? 'border-brand-main/50 dark:border-brand-main/60 ring-2 ring-brand-main/15 shadow-md shadow-brand-main/5' : 'border-slate-100 dark:border-slate-700/80 shadow-sm' }} flex flex-col justify-between hover:shadow-md transition-all group">
                             <div>
                                 <!-- Header Kartu: Icon, Servis Mendekat Pin, & Status Badge -->
                                 <div class="flex items-center justify-between">
@@ -424,9 +424,9 @@
             <!-- 1. TAMPILAN MOBILE (Card List Rapi Khusus Layar Kecil / HP) -->
             <div class="block md:hidden space-y-3">
                 @forelse($recentServiceLogs as $log)
-                    <div class="bg-white dark:bg-[#1E293B] rounded-2xl p-4 border border-slate-100 dark:border-slate-800 shadow-sm space-y-3 transition">
+                    <div class="bg-white dark:bg-[#1E293B] rounded-2xl p-4 border border-slate-100 dark:border-slate-700/80 shadow-sm space-y-3 transition">
                         <!-- Baris Atas: Tanggal, Status Nota & Biaya -->
-                        <div class="flex items-start justify-between gap-2 border-b border-slate-100 dark:border-slate-800/80 pb-2.5">
+                        <div class="flex items-start justify-between gap-2 border-b border-slate-100 dark:border-slate-700/80 pb-2.5">
                             <div>
                                 <span class="font-extrabold text-slate-800 dark:text-white text-xs block">
                                     {{ $log->service_date_formatted }}
@@ -470,7 +470,7 @@
                             @endif
 
                             @if($log->notes)
-                                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-2 bg-slate-50 dark:bg-slate-900/50 p-2 rounded-xl border border-slate-100 dark:border-slate-800/60 leading-relaxed">
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-2 bg-slate-50 dark:bg-slate-900/70 p-2 rounded-xl border border-slate-100 dark:border-slate-700/80/60 leading-relaxed">
                                     {{ $log->notes }}
                                 </p>
                             @endif
@@ -485,7 +485,7 @@
                         </div>
                     </div>
                 @empty
-                    <div class="bg-white dark:bg-[#1E293B] rounded-2xl p-8 text-center text-slate-400 space-y-2 border border-slate-100 dark:border-slate-800">
+                    <div class="bg-white dark:bg-[#1E293B] rounded-2xl p-8 text-center text-slate-400 space-y-2 border border-slate-100 dark:border-slate-700/80">
                         <i data-lucide="clipboard" class="w-6 h-6 mx-auto text-slate-400"></i>
                         <p class="text-xs font-semibold text-slate-600 dark:text-slate-300">Belum ada riwayat servis untuk motor ini</p>
                     </div>
@@ -595,7 +595,7 @@
          x-cloak 
          class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
         <div @click.outside="recalibrateModal = false" 
-             class="bg-white dark:bg-[#1E293B] rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4 border border-slate-100 dark:border-slate-800">
+             class="bg-white dark:bg-[#1E293B] rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4 border border-slate-100 dark:border-slate-700/80">
             
             <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-700">
                 <div class="flex items-center space-x-2">
@@ -666,7 +666,7 @@
          x-cloak 
          class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
         <div @click.outside="quickServiceModal = false" 
-             class="bg-white dark:bg-[#1E293B] rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4 border border-slate-100 dark:border-slate-800">
+             class="bg-white dark:bg-[#1E293B] rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4 border border-slate-100 dark:border-slate-700/80">
             
             <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-700">
                 <div class="flex items-center space-x-2">
@@ -764,7 +764,7 @@
          x-cloak 
          class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
         <div @click.outside="editDateModal = false" 
-             class="bg-white dark:bg-[#1E293B] rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4 border border-slate-100 dark:border-slate-800">
+             class="bg-white dark:bg-[#1E293B] rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4 border border-slate-100 dark:border-slate-700/80">
             
             <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-700">
                 <div class="flex items-center space-x-2">
@@ -835,7 +835,7 @@
          x-cloak 
          class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
         <div @click.outside="detailModal = false" 
-             class="bg-white dark:bg-[#1E293B] rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4 border border-slate-100 dark:border-slate-800">
+             class="bg-white dark:bg-[#1E293B] rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4 border border-slate-100 dark:border-slate-700/80">
             
             <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-700">
                 <div class="flex items-center space-x-2">

@@ -63,7 +63,7 @@
     @endif
 
     <!-- Header Section -->
-    <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-6 sm:p-8 border border-slate-100 dark:border-slate-800 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4 transition-colors">
+    <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-6 sm:p-8 border border-slate-100 dark:border-slate-700/80 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4 transition-colors">
         <div class="flex items-center space-x-4">
             <div class="w-14 h-14 rounded-2xl bg-brand-secondary/40 dark:bg-brand-main/20 flex items-center justify-center text-brand-main dark:text-brand-accent">
                 <i data-lucide="bike" class="w-7 h-7"></i>
@@ -88,7 +88,7 @@
             <input type="text" 
                    x-model="searchQuery" 
                    placeholder="Cari berdasarkan nama motor, merk, atau plat nomor..." 
-                   class="w-full pl-10 pr-9 py-2.5 text-xs rounded-2xl border-slate-200 dark:border-slate-800 bg-white dark:bg-[#1E293B] text-slate-800 dark:text-slate-100 placeholder-slate-400 focus:border-brand-main focus:ring focus:ring-brand-main/20 shadow-sm transition">
+                   class="w-full pl-10 pr-9 py-2.5 text-xs rounded-2xl border-slate-200 dark:border-slate-700/80 bg-white dark:bg-[#1E293B] text-slate-800 dark:text-slate-100 placeholder-slate-400 focus:border-brand-main focus:ring focus:ring-brand-main/20 shadow-sm transition">
             <button x-show="searchQuery.length > 0" 
                     @click="searchQuery = ''" 
                     class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
@@ -112,7 +112,7 @@
                  x-transition:enter="transition ease-out duration-200"
                  x-transition:enter-start="opacity-0 scale-95"
                  x-transition:enter-end="opacity-100 scale-100"
-                 class="rounded-3xl p-6 border transition-all duration-200 flex flex-col justify-between {{ $isActive ? 'border-brand-main bg-white dark:bg-[#1E293B] ring-2 ring-brand-main/30 shadow-lg shadow-brand-main/5' : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-[#1E293B] hover:border-slate-300 dark:hover:border-slate-700 shadow-sm' }}">
+                 class="rounded-3xl p-6 border transition-all duration-200 flex flex-col justify-between {{ $isActive ? 'border-brand-main bg-white dark:bg-[#1E293B] ring-2 ring-brand-main/30 shadow-lg shadow-brand-main/5' : 'border-slate-200 dark:border-slate-700/80 bg-white dark:bg-[#1E293B] hover:border-slate-300 dark:hover:border-slate-700 shadow-sm' }}">
                 <div class="space-y-4">
                     <!-- Card Top Header -->
                     <div class="flex items-start justify-between">
@@ -147,8 +147,8 @@
                     </div>
 
                     <!-- Metrics Stats Card with Recalibrate Icon Button -->
-                    <div class="pt-3 border-t border-slate-100 dark:border-slate-800/80">
-                        <div class="bg-slate-50 dark:bg-slate-900/40 p-3 rounded-2xl border border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                    <div class="pt-3 border-t border-slate-100 dark:border-slate-700/80">
+                        <div class="bg-slate-50 dark:bg-slate-900/70 p-3 rounded-2xl border border-slate-100 dark:border-slate-700/80 flex items-center justify-between">
                             <div class="grid grid-cols-2 gap-3 flex-1 text-xs pr-2">
                                 <div>
                                     <span class="block text-[10px] text-slate-400 uppercase font-semibold">Odometer</span>
@@ -180,7 +180,7 @@
                     </div>
 
                     <!-- ==================== KONDISI 5 SPAREPART VITAL (CIRCULAR DONUT GAUGE) ==================== -->
-                    <div class="pt-3 border-t border-slate-100 dark:border-slate-800/80">
+                    <div class="pt-3 border-t border-slate-100 dark:border-slate-700/80">
                         <div class="flex items-center justify-between mb-2">
                             <span class="text-[11px] font-bold text-slate-600 dark:text-slate-300 flex items-center space-x-1.5">
                                 <i data-lucide="activity" class="w-3.5 h-3.5 text-brand-main dark:text-brand-accent"></i>
@@ -198,7 +198,7 @@
                                     $circumference = 2 * 3.14159 * $radius; // ~100.53
                                     $dashoffset = $circumference - ($circumference * $part->percentage / 100);
                                 @endphp
-                                <div class="flex flex-col items-center flex-shrink-0 p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-900/40 border border-slate-100 dark:border-slate-800/80 w-[78px] hover:border-slate-300 dark:hover:border-slate-700 transition group"
+                                <div class="flex flex-col items-center flex-shrink-0 p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-900/70 border border-slate-100 dark:border-slate-700/80 w-[78px] hover:border-slate-300 dark:hover:border-slate-700 transition group"
                                      title="{{ $part->name }}: sisa {{ number_format($part->km_remaining, 0, ',', '.') }} KM ({{ $part->percentage }}%)">
                                     
                                     <!-- Donut Chart SVG -->
@@ -233,7 +233,7 @@
                 </div>
 
                 <!-- Actions -->
-                <div class="pt-4 mt-4 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between">
+                <div class="pt-4 mt-4 border-t border-slate-100 dark:border-slate-700/80 flex items-center justify-between">
                     <span class="text-[11px] text-slate-400">Tahun: {{ $vehicle->manufacture_year ?: '-' }}</span>
                     <div class="flex items-center space-x-1.5">
                         <!-- Button Lihat Riwayat Servis -->
@@ -273,7 +273,7 @@
                 </div>
             </div>
         @empty
-            <div class="col-span-full py-12 text-center text-slate-400 space-y-3 bg-white dark:bg-[#1E293B] rounded-3xl p-8 border border-slate-100 dark:border-slate-800">
+            <div class="col-span-full py-12 text-center text-slate-400 space-y-3 bg-white dark:bg-[#1E293B] rounded-3xl p-8 border border-slate-100 dark:border-slate-700/80">
                 <div class="w-16 h-16 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center mx-auto text-slate-400">
                     <i data-lucide="bike" class="w-8 h-8"></i>
                 </div>
@@ -289,7 +289,7 @@
         @if($vehicles->count() > 0)
             <div x-cloak 
                  x-show="searchQuery !== '' && !Array.from($el.parentElement.children).some(el => el !== $el && el.style.display !== 'none')" 
-                 class="col-span-full py-12 text-center text-slate-400 space-y-3 bg-white dark:bg-[#1E293B] rounded-3xl p-8 border border-slate-100 dark:border-slate-800">
+                 class="col-span-full py-12 text-center text-slate-400 space-y-3 bg-white dark:bg-[#1E293B] rounded-3xl p-8 border border-slate-100 dark:border-slate-700/80">
                 <div class="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center mx-auto text-slate-400">
                     <i data-lucide="search-x" class="w-6 h-6"></i>
                 </div>

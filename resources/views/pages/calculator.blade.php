@@ -14,7 +14,7 @@
         <div class="lg:col-span-7 space-y-6">
 
             <!-- KARTU 1: PILIH KOMPONEN KENDARAAN -->
-            <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-6 border border-slate-100 dark:border-slate-800 shadow-sm transition-colors">
+            <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-6 border border-slate-100 dark:border-slate-700/80 shadow-sm transition-colors">
                 <span class="block text-sm font-bold text-slate-800 dark:text-white mb-3">
                     Pilih Komponen Kendaraan
                 </span>
@@ -31,7 +31,7 @@
                 </div>
 
                 <!-- Slider Simulasi Keterlambatan Servis (Fitur Tambahan Interaktif Sesuai AGENTS.md) -->
-                <div class="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800">
+                <div class="mt-4 pt-4 border-t border-slate-100 dark:border-slate-700/80">
                     <div class="flex items-center justify-between text-xs font-semibold text-slate-600 dark:text-slate-300 mb-2">
                         <span class="flex items-center space-x-1.5">
                             <i data-lucide="clock" class="w-3.5 h-3.5 text-slate-400"></i>
@@ -62,7 +62,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 
                 <!-- BOX KIRI (HIJAU: SERVIS TEPAT WAKTU) -->
-                <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-6 border border-slate-100 dark:border-slate-800 shadow-sm transition-colors flex flex-col justify-between min-h-[170px]">
+                <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-6 border border-slate-100 dark:border-slate-700/80 shadow-sm transition-colors flex flex-col justify-between min-h-[170px]">
                     <div>
                         <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 tracking-wide block">
                             Servis Tepat Waktu
@@ -77,7 +77,7 @@
                 </div>
 
                 <!-- BOX KANAN (MERAH: JIKA DIABAIKAN) -->
-                <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-6 border border-slate-100 dark:border-slate-800 shadow-sm transition-colors flex flex-col justify-between min-h-[170px]">
+                <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-6 border border-slate-100 dark:border-slate-700/80 shadow-sm transition-colors flex flex-col justify-between min-h-[170px]">
                     <div>
                         <span class="text-xs font-bold text-rose-600 dark:text-rose-400 tracking-wide block">
                             Jika Diabaikan
@@ -94,7 +94,7 @@
             </div>
 
             <!-- KARTU 3: DAMPAK FINANSIAL & GRAFIK BATANG (BAR CHART) -->
-            <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-6 sm:p-7 border border-slate-100 dark:border-slate-800 shadow-sm transition-colors space-y-4">
+            <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-6 sm:p-7 border border-slate-100 dark:border-slate-700/80 shadow-sm transition-colors space-y-4">
                 
                 <div>
                     <h3 class="text-base font-black text-slate-800 dark:text-white">Dampak Finansial</h3>
@@ -110,7 +110,7 @@
                 </div>
 
                 <!-- Wadah Visualisasi Grafik Batang (Persis Desain Foto) -->
-                <div class="bg-slate-50/80 dark:bg-slate-800/40 rounded-2xl p-6 border border-slate-100 dark:border-slate-800/80 mt-4">
+                <div class="bg-slate-50/80 dark:bg-slate-900/60 rounded-2xl p-6 border border-slate-100 dark:border-slate-700/80 mt-4">
                     <div class="flex items-end justify-center space-x-12 sm:space-x-16 min-h-[160px] pt-6 pb-2">
                         
                         <!-- Batang 1: Tepat Waktu (Hijau) -->
@@ -148,7 +148,7 @@
 
         <!-- ==================== KOLOM KANAN (LINGKUNGAN & SDG 12) ==================== -->
         <div class="lg:col-span-5">
-            <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-6 sm:p-7 border border-slate-100 dark:border-slate-800 shadow-sm transition-colors space-y-6">
+            <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-6 sm:p-7 border border-slate-100 dark:border-slate-700/80 shadow-sm transition-colors space-y-6">
                 
                 <!-- Header Card: Tag Lingkungan & SDG 12 Badge -->
                 <div class="flex items-center justify-between">
@@ -169,7 +169,7 @@
                 </div>
 
                 <!-- 2 Metrik Status (Limbah Logam & Zat Berbahaya) -->
-                <div class="grid grid-cols-2 gap-4 py-4 border-y border-slate-100 dark:border-slate-800">
+                <div class="grid grid-cols-2 gap-4 py-4 border-y border-slate-100 dark:border-slate-700/80">
                     <div>
                         <span class="text-xs text-slate-400 font-medium block">Limbah logam</span>
                         <span class="text-sm sm:text-base font-extrabold text-slate-800 dark:text-white mt-0.5 block" 

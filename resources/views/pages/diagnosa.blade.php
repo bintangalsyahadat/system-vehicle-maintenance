@@ -22,7 +22,7 @@
     @endif
 
     @if(!$activeVehicle)
-        <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-12 text-center text-slate-400 space-y-3 border border-slate-100 dark:border-slate-800">
+        <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-12 text-center text-slate-400 space-y-3 border border-slate-100 dark:border-slate-700/80">
             <div class="w-16 h-16 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center mx-auto text-slate-400">
                 <i data-lucide="bike" class="w-8 h-8"></i>
             </div>
@@ -36,7 +36,7 @@
     @else
 
         <!-- ==================== HEADER MOTOR AKTIF ==================== -->
-        <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-6 border border-slate-100 dark:border-slate-800 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-6 border border-slate-100 dark:border-slate-700/80 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div class="flex items-center space-x-4">
                 <div class="w-14 h-14 rounded-2xl bg-brand-secondary/40 dark:bg-brand-main/20 flex items-center justify-center text-brand-main dark:text-brand-accent flex-shrink-0">
                     <i data-lucide="scan" class="w-7 h-7"></i>
@@ -76,7 +76,7 @@
                 $isWarning = $scan->severity_level === 'WARNING';
             @endphp
             <div class="p-6 rounded-3xl border {{ $isCritical ? 'bg-rose-50/50 dark:bg-rose-950/20 border-rose-200 dark:border-rose-900/60 ring-2 ring-rose-500/20' : ($isWarning ? 'bg-amber-50/50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-900/60 ring-2 ring-amber-500/20' : 'bg-emerald-50/50 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-900/60') }} space-y-4">
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-200/60 dark:border-slate-800">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-200/60 dark:border-slate-700/80">
                     <div class="flex items-center space-x-3">
                         <div class="w-10 h-10 rounded-xl {{ $isCritical ? 'bg-rose-500 text-white' : ($isWarning ? 'bg-amber-500 text-white' : 'bg-emerald-500 text-white') }} flex items-center justify-center flex-shrink-0">
                             <i data-lucide="{{ $isCritical ? 'alert-octagon' : ($isWarning ? 'alert-triangle' : 'check-circle-2') }}" class="w-6 h-6"></i>
@@ -123,7 +123,7 @@
 
                     <div class="space-y-2">
                         @forelse($steps as $step)
-                            <div class="p-3.5 rounded-2xl bg-white/80 dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-200 flex items-start space-x-3">
+                            <div class="p-3.5 rounded-2xl bg-white/80 dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-700/80 text-xs text-slate-700 dark:text-slate-200 flex items-start space-x-3">
                                 <div class="w-5 h-5 rounded-lg bg-brand-secondary/50 dark:bg-brand-main/20 text-brand-main dark:text-brand-accent flex items-center justify-center font-bold text-[11px] flex-shrink-0 mt-0.5">
                                     {{ $loop->iteration }}
                                 </div>
@@ -132,7 +132,7 @@
                                 </div>
                             </div>
                         @empty
-                            <div class="p-4 rounded-2xl bg-white/80 dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-200">
+                            <div class="p-4 rounded-2xl bg-white/80 dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-700/80 text-xs text-slate-700 dark:text-slate-200">
                                 {{ $scan->emergency_action }}
                             </div>
                         @endforelse
@@ -141,7 +141,7 @@
 
                 <!-- Estimasi Biaya Perbaikan -->
                 @if($scan->estimated_cost_max > 0)
-                    <div class="flex items-center justify-between p-3.5 rounded-2xl bg-white/60 dark:bg-slate-900/60 border border-slate-200/60 dark:border-slate-800 text-xs">
+                    <div class="flex items-center justify-between p-3.5 rounded-2xl bg-white/60 dark:bg-slate-900/70 border border-slate-200/60 dark:border-slate-700/80 text-xs">
                         <span class="text-slate-500 dark:text-slate-400 font-medium">Estimasi Biaya Perbaikan di Bengkel:</span>
                         <span class="font-bold text-brand-main dark:text-brand-accent font-mono text-sm">
                             Rp {{ number_format($scan->estimated_cost_min, 0, ',', '.') }} - Rp {{ number_format($scan->estimated_cost_max, 0, ',', '.') }}
@@ -155,7 +155,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
             <!-- Card Pemicu Buka Scanner Modal (8 Kolom) -->
-            <div class="lg:col-span-8 bg-white dark:bg-[#1E293B] rounded-3xl p-6 sm:p-8 border border-slate-100 dark:border-slate-800 shadow-sm flex flex-col justify-between space-y-6">
+            <div class="lg:col-span-8 bg-white dark:bg-[#1E293B] rounded-3xl p-6 sm:p-8 border border-slate-100 dark:border-slate-700/80 shadow-sm flex flex-col justify-between space-y-6">
                 <div class="space-y-3">
                     <span class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-[10px] font-bold bg-brand-secondary/40 dark:bg-brand-main/20 text-brand-main dark:text-brand-accent">
                         <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
@@ -169,7 +169,7 @@
                     </p>
                 </div>
 
-                <div class="pt-4 border-t border-slate-100 dark:border-slate-800/80 flex flex-wrap items-center gap-3">
+                <div class="pt-4 border-t border-slate-100 dark:border-slate-700/80 flex flex-wrap items-center gap-3">
                     <button type="button" 
                             @click="openScannerModal('camera')" 
                             class="px-5 py-3 rounded-2xl bg-brand-main hover:bg-brand-dark text-white text-xs font-bold transition shadow-md shadow-brand-main/25 hover:shadow-brand-main/40 flex items-center space-x-2">
@@ -187,13 +187,13 @@
 
             <!-- Panduan & Edukasi Lampu Indikator MIL (4 Kolom) -->
             <div class="lg:col-span-4 space-y-4">
-                <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-6 border border-slate-100 dark:border-slate-800 shadow-sm space-y-4">
+                <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-6 border border-slate-100 dark:border-slate-700/80 shadow-sm space-y-4">
                     <h3 class="font-bold text-slate-800 dark:text-white text-sm flex items-center space-x-2">
                         <i data-lucide="info" class="w-4 h-4 text-brand-main dark:text-brand-accent"></i>
                         <span>Panduan Lampu Speedometer</span>
                     </h3>
                     <div class="space-y-3 text-xs">
-                        <div class="p-3 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800 space-y-1">
+                        <div class="p-3 rounded-2xl bg-slate-50 dark:bg-slate-900/70 border border-slate-100 dark:border-slate-700/80 space-y-1">
                             <div class="font-bold text-rose-500 flex items-center space-x-1.5">
                                 <span class="w-2 h-2 rounded-full bg-rose-500"></span>
                                 <span>Lampu Check Engine / MIL</span>
@@ -203,7 +203,7 @@
                             </p>
                         </div>
 
-                        <div class="p-3 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800 space-y-1">
+                        <div class="p-3 rounded-2xl bg-slate-50 dark:bg-slate-900/70 border border-slate-100 dark:border-slate-700/80 space-y-1">
                             <div class="font-bold text-amber-500 flex items-center space-x-1.5">
                                 <span class="w-2 h-2 rounded-full bg-amber-500"></span>
                                 <span>Lampu Indikator Aki / Baterai</span>
@@ -213,7 +213,7 @@
                             </p>
                         </div>
 
-                        <div class="p-3 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800 space-y-1">
+                        <div class="p-3 rounded-2xl bg-slate-50 dark:bg-slate-900/70 border border-slate-100 dark:border-slate-700/80 space-y-1">
                             <div class="font-bold text-red-600 flex items-center space-x-1.5">
                                 <span class="w-2 h-2 rounded-full bg-red-600"></span>
                                 <span>Lampu Suhu / Radiator</span>
@@ -233,10 +233,10 @@
              x-cloak 
              class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4">
             <div @click.outside="closeScannerModal()" 
-                 class="bg-white dark:bg-[#1E293B] rounded-3xl max-w-2xl w-full p-6 shadow-2xl space-y-4 border border-slate-100 dark:border-slate-800 flex flex-col max-h-[90vh]">
+                 class="bg-white dark:bg-[#1E293B] rounded-3xl max-w-2xl w-full p-6 shadow-2xl space-y-4 border border-slate-100 dark:border-slate-700/80 flex flex-col max-h-[90vh]">
                 
                 <!-- Modal Header -->
-                <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+                <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-700/80">
                     <div class="flex items-center space-x-2">
                         <div class="w-8 h-8 rounded-xl bg-brand-secondary/40 dark:bg-brand-main/20 flex items-center justify-center text-brand-main dark:text-brand-accent">
                             <i data-lucide="scan" class="w-4 h-4"></i>
@@ -367,7 +367,7 @@
         </div>
 
         <!-- ==================== RIWAYAT DIAGNOSA TERAKHIR ==================== -->
-        <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-6 border border-slate-100 dark:border-slate-800 shadow-sm space-y-4">
+        <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-6 border border-slate-100 dark:border-slate-700/80 shadow-sm space-y-4">
             <div class="flex items-center justify-between">
                 <div>
                     <h3 class="font-bold text-slate-800 dark:text-white text-base">Riwayat Hasil Diagnosa</h3>
@@ -382,7 +382,7 @@
                         $isCrit = $history->severity_level === 'CRITICAL';
                         $isWarn = $history->severity_level === 'WARNING';
                     @endphp
-                    <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/40 border border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 hover:border-slate-200 dark:hover:border-slate-700 transition">
+                    <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/70 border border-slate-100 dark:border-slate-700/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 hover:border-slate-200 dark:hover:border-slate-700 transition">
                         <div class="flex items-center space-x-3.5">
                             @if($history->image_url)
                                 <img src="{{ $history->image_url }}" alt="Scan Speedometer" class="w-12 h-12 rounded-xl object-cover border border-slate-200 dark:border-slate-700 flex-shrink-0 bg-slate-900">
@@ -406,7 +406,7 @@
                             </div>
                         </div>
 
-                        <div class="flex items-center space-x-3 w-full sm:w-auto justify-between sm:justify-end pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-100 dark:border-slate-800">
+                        <div class="flex items-center space-x-3 w-full sm:w-auto justify-between sm:justify-end pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-100 dark:border-slate-700/80">
                             @if($history->estimated_cost_max > 0)
                                 <div class="text-left sm:text-right text-xs">
                                     <span class="block text-[10px] text-slate-400">Est. Biaya</span>
