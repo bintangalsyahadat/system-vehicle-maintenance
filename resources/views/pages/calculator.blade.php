@@ -19,12 +19,15 @@
                     Pilih Komponen Kendaraan
                 </span>
                 
-                <div class="flex items-center space-x-2 overflow-x-auto no-scrollbar pb-1">
+                <!-- Tab Bar Container dengan wadah & border kontras di Dark Mode -->
+                <div class="flex items-center space-x-1.5 p-1.5 bg-slate-100 dark:bg-slate-900/80 rounded-2xl border border-slate-200/80 dark:border-slate-700/80 overflow-x-auto no-scrollbar">
                     <template x-for="item in items" :key="item.id">
                         <button type="button" 
                                 @click="selectedId = item.id"
-                                :class="selectedId == item.id ? 'bg-brand-main text-white shadow-md shadow-brand-main/20' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'"
-                                class="px-4 py-2 rounded-2xl text-xs font-bold whitespace-nowrap transition"
+                                :class="selectedId == item.id 
+                                    ? 'bg-brand-main text-white shadow-sm font-extrabold' 
+                                    : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/60 dark:hover:bg-slate-800/60 font-semibold'"
+                                class="px-3.5 py-2 rounded-xl text-xs whitespace-nowrap transition-all duration-200"
                                 x-text="item.short_name">
                         </button>
                     </template>
@@ -153,7 +156,7 @@
                 <!-- Header Card: Tag Lingkungan & SDG 12 Badge -->
                 <div class="flex items-center justify-between">
                     <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Lingkungan</span>
-                    <span class="bg-slate-900 dark:bg-slate-800 text-white text-[11px] font-black px-3 py-1 rounded-full uppercase tracking-wider shadow-sm">
+                    <span class="bg-slate-900 dark:bg-slate-800/90 text-white text-[11px] font-black px-3 py-1 rounded-full uppercase tracking-wider border border-slate-700/80 dark:border-slate-600/70 shadow-sm">
                         SDG 12
                     </span>
                 </div>
