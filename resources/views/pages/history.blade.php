@@ -367,6 +367,22 @@
 
             <!-- Viewfinder / File Upload Box -->
             <div class="space-y-4 overflow-y-auto no-scrollbar flex-1">
+
+                <!-- Inline Error Banner (Menggantikan alert() bawaan browser) -->
+                <div x-show="receiptScanError" x-cloak class="p-3.5 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800/70 text-rose-700 dark:text-rose-300 text-xs flex items-start justify-between gap-3">
+                    <div class="flex items-start space-x-2">
+                        <i data-lucide="alert-circle" class="w-4 h-4 text-rose-500 flex-shrink-0 mt-0.5"></i>
+                        <div class="space-y-1">
+                            <p class="font-semibold" x-text="receiptScanError"></p>
+                            <button type="button" @click="closeReceiptScanModal(); openManualAddModal();" class="underline font-bold hover:text-rose-900 dark:hover:text-rose-100">
+                                Lanjut input manual tanpa scan AI
+                            </button>
+                        </div>
+                    </div>
+                    <button type="button" @click="receiptScanError = ''" class="text-rose-400 hover:text-rose-600">
+                        <i data-lucide="x" class="w-4 h-4"></i>
+                    </button>
+                </div>
                 
                 <!-- State 1: Pilih Sumber Gambar (Kamera Live vs Upload Galeri) -->
                 <div x-show="!receiptCapturedImage" class="space-y-3">
@@ -707,6 +723,7 @@ function historyManager() {
         receiptFileName: '',
         isPdfFile: false,
         isAnalyzingReceipt: false,
+        receiptScanError: '',
         previewImageUrl: '',
         deleteLogIds: [],
 
@@ -741,6 +758,7 @@ function historyManager() {
         openReceiptScanModal() {
             this.scanReceiptModal = true;
             this.receiptCapturedImage = null;
+            this.receiptScanError = '';
             this.receiptScanMode = 'camera';
             this.$nextTick(() => {
                 this.startCameraStream();
@@ -816,6 +834,7 @@ function historyManager() {
             this.receiptCapturedImage = null;
             this.receiptFileName = '';
             this.isPdfFile = false;
+            this.receiptScanError = '';
             if (this.receiptScanMode === 'camera') {
                 this.$nextTick(() => this.startCameraStream());
             }
@@ -824,6 +843,7 @@ function historyManager() {
         processReceiptAnalysis() {
             if (!this.receiptCapturedImage) return;
             this.isAnalyzingReceipt = true;
+            this.receiptScanError = '';
 
             fetch('{{ route("history.scanReceipt") }}', {
                 method: 'POST',
@@ -859,17 +879,13 @@ function historyManager() {
                     this.scanReceiptModal = false;
                     this.serviceFormModal = true;
                 } else {
-                    alert('Gagal mengekstrak nota. Silakan input secara manual.');
+                    this.receiptScanError = data.message || 'Gagal mengekstrak nota. Pastikan gambar terbaca jelas atau lanjutkan input manual.';
                 }
             })
             .catch(err => {
                 this.isAnalyzingReceipt = false;
                 console.error('Scan Error:', err);
-                // Fallback manual entry with current image
-                this.formData.receipt_image_url = this.receiptCapturedImage;
-                this.isEditMode = false;
-                this.scanReceiptModal = false;
-                this.serviceFormModal = true;
+                this.receiptScanError = 'Terjadi kendala koneksi saat memindai nota. Silakan coba lagi atau lanjutkan input manual.';
             });
         },
 

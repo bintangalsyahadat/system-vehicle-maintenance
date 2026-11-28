@@ -145,13 +145,21 @@ class HistoryController extends Controller
         } elseif ($extension === 'jpeg') {
             $extension = 'jpg';
         }
-        if ($extension === 'jpeg') $extension = 'jpg';
         $fileName = 'receipts/' . uniqid('receipt_') . '.' . $extension;
         Storage::disk('public')->put($fileName, base64_decode($base64Image));
         $publicUrl = Storage::disk('public')->url($fileName);
 
         // Ekstraksi data via Gemini Vision AI
         $result = $visionService->analyzeReceipt($base64Image, $mimeType, $vehicle);
+
+        if (isset($result['is_valid_receipt']) && !$result['is_valid_receipt']) {
+            Storage::disk('public')->delete($fileName);
+
+            return response()->json([
+                'success' => false,
+                'message' => $result['rejection_reason'] ?: 'Gambar terdeteksi bukan nota atau faktur servis bengkel yang jelas.',
+            ], 422);
+        }
 
         return response()->json([
             'success' => true,

@@ -21,6 +21,34 @@
         </div>
     @endif
 
+    @if (session('status') === 'wa-otp-sent')
+        <div class="p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 text-xs font-semibold flex items-center space-x-2">
+            <i data-lucide="message-circle" class="w-4 h-4 text-emerald-500"></i>
+            <span>Kode OTP 6 digit telah dikirim ke WhatsApp Anda. Berlaku selama 10 menit.</span>
+        </div>
+    @endif
+
+    @if (session('status') === 'wa-verified')
+        <div class="p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 text-xs font-semibold flex items-center space-x-2">
+            <i data-lucide="badge-check" class="w-4 h-4 text-emerald-500"></i>
+            <span>Nomor WhatsApp berhasil diverifikasi! Notifikasi pengingat otomatis kini aktif.</span>
+        </div>
+    @endif
+
+    @if (session('status') === 'wa-notif-enabled' || session('status') === 'wa-notif-disabled')
+        <div class="p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 text-xs font-semibold flex items-center space-x-2">
+            <i data-lucide="bell" class="w-4 h-4 text-emerald-500"></i>
+            <span>Notifikasi pengingat WhatsApp {{ session('status') === 'wa-notif-enabled' ? 'diaktifkan' : 'dinonaktifkan' }}.</span>
+        </div>
+    @endif
+
+    @if (session('wa_error'))
+        <div class="p-4 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 text-rose-800 dark:text-rose-300 text-xs font-semibold flex items-center space-x-2">
+            <i data-lucide="alert-triangle" class="w-4 h-4 text-rose-500"></i>
+            <span>{{ session('wa_error') }}</span>
+        </div>
+    @endif
+
     <!-- ==================== 1. HERO PROFILE SUMMARY CARD ==================== -->
     <div class="bg-white dark:bg-[#1E293B] rounded-3xl p-6 sm:p-8 border border-slate-100 dark:border-slate-800 shadow-sm flex flex-col sm:flex-row items-center sm:items-start justify-between gap-6 transition-colors">
         <div class="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-5 text-center sm:text-left">
@@ -42,6 +70,17 @@
                 <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5 flex items-center justify-center sm:justify-start space-x-1.5">
                     <i data-lucide="phone" class="w-3.5 h-3.5"></i>
                     <span>{{ Auth::user()->phone_whatsapp ?: 'Nomor WhatsApp belum diisi' }}</span>
+                    @if(Auth::user()->phone_whatsapp)
+                        @if(Auth::user()->whatsapp_verified_at)
+                            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/70">
+                                Terverifikasi
+                            </span>
+                        @else
+                            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-800/70">
+                                Belum Verifikasi
+                            </span>
+                        @endif
+                    @endif
                 </p>
             </div>
         </div>
@@ -117,6 +156,67 @@
                     </button>
                 </div>
             </form>
+
+            <!-- Verifikasi & Toggle Notifikasi WhatsApp (Fonnte) -->
+            <div class="pt-5 border-t border-slate-100 dark:border-slate-800 space-y-4">
+                <div class="flex items-center justify-between gap-4">
+                    <div>
+                        <h4 class="text-xs font-bold text-slate-800 dark:text-white flex items-center space-x-1.5">
+                            <i data-lucide="message-circle" class="w-4 h-4 text-emerald-500"></i>
+                            <span>Notifikasi WhatsApp (Fonnte)</span>
+                        </h4>
+                        <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
+                            @if(Auth::user()->whatsapp_verified_at)
+                                Nomor terverifikasi pada {{ Auth::user()->whatsapp_verified_at->translatedFormat('d M Y, H:i') }}.
+                            @else
+                                Verifikasi nomor WhatsApp terlebih dahulu untuk mengaktifkan pengingat otomatis.
+                            @endif
+                        </p>
+                    </div>
+
+                    <!-- Toggle Switch Notifikasi WhatsApp -->
+                    <form method="POST" action="{{ route('profile.whatsapp.toggle') }}">
+                        @csrf
+                        @method('patch')
+                        <button type="submit"
+                                @if(!Auth::user()->whatsapp_verified_at) disabled @endif
+                                class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed {{ Auth::user()->whatsapp_notifications_enabled && Auth::user()->whatsapp_verified_at ? 'bg-brand-main' : 'bg-slate-200 dark:bg-slate-700' }}"
+                                title="{{ Auth::user()->whatsapp_verified_at ? 'Aktifkan / Nonaktifkan Notifikasi WhatsApp' : 'Verifikasi nomor WhatsApp terlebih dahulu' }}">
+                            <span class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out {{ Auth::user()->whatsapp_notifications_enabled && Auth::user()->whatsapp_verified_at ? 'translate-x-5' : 'translate-x-0' }}"></span>
+                        </button>
+                    </form>
+                </div>
+
+                @if(!Auth::user()->whatsapp_verified_at)
+                    <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-700/70 space-y-3">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                            <span class="text-[11px] font-semibold text-slate-600 dark:text-slate-300">
+                                Status: <span class="text-amber-600 dark:text-amber-400 font-bold">Menunggu Verifikasi OTP</span>
+                            </span>
+                            <form method="POST" action="{{ route('profile.whatsapp.sendOtp') }}">
+                                @csrf
+                                <button type="submit"
+                                        @if(!Auth::user()->phone_whatsapp) disabled @endif
+                                        class="px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed text-white text-[11px] font-bold transition shadow-sm">
+                                    Kirim Kode OTP ke WhatsApp
+                                </button>
+                            </form>
+                        </div>
+
+                        <form method="POST" action="{{ route('profile.whatsapp.verifyOtp') }}" class="flex items-center gap-2">
+                            @csrf
+                            <input type="text" name="otp_code" maxlength="6" inputmode="numeric" placeholder="Masukkan 6 digit OTP"
+                                   class="flex-1 text-xs rounded-xl border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:border-brand-main focus:ring focus:ring-brand-main/20 py-2 px-3 tracking-widest font-bold">
+                            <button type="submit" class="px-4 py-2 rounded-xl bg-brand-main hover:bg-brand-dark text-white text-xs font-bold transition shadow-sm">
+                                Verifikasi
+                            </button>
+                        </form>
+                        @error('otp_code', 'whatsappVerification')
+                            <p class="text-[11px] text-rose-500">{{ $message }}</p>
+                        @enderror
+                    </div>
+                @endif
+            </div>
         </div>
 
         <!-- Form 2: Keamanan / Ganti Password -->

@@ -4,6 +4,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CalculatorController;
 use App\Http\Controllers\DiagnosaController;
 use App\Http\Controllers\HistoryController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VehicleController;
 use Illuminate\Support\Facades\Route;
@@ -51,9 +52,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/vehicles/{vehicle}/recalibrate', [VehicleController::class, 'recalibrate'])->name('vehicles.recalibrate');
     Route::delete('/vehicles/{vehicle}', [VehicleController::class, 'destroy'])->name('vehicles.destroy');
 
+    // Fitur Notifikasi Web & WhatsApp (Fonnte)
+    Route::post('/notifications/reminders/{reminder}/snooze', [NotificationController::class, 'snoozeReminder'])->name('notifications.snooze');
+    Route::post('/notifications/send-whatsapp', [NotificationController::class, 'sendWhatsApp'])->name('notifications.sendWhatsApp');
+
     // Fitur Profil & Garasi Kendaraan (Breeze Default Extended)
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::post('/profile/whatsapp/send-otp', [ProfileController::class, 'sendWhatsAppOtp'])->name('profile.whatsapp.sendOtp');
+    Route::post('/profile/whatsapp/verify-otp', [ProfileController::class, 'verifyWhatsAppOtp'])->name('profile.whatsapp.verifyOtp');
+    Route::patch('/profile/whatsapp/toggle', [ProfileController::class, 'toggleWhatsAppNotification'])->name('profile.whatsapp.toggle');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
