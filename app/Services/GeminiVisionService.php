@@ -27,8 +27,6 @@ class GeminiVisionService
             return $this->fallbackAnalysis();
         }
 
-        $endpoint = "https://generativelanguage.googleapis.com/v1beta/models/{$this->model}:generateContent?key={$this->apiKey}";
-
         // Sertakan identitas kendaraan agar estimasi biaya realistis untuk sepeda motor harian di Indonesia
         $vehicleContext = "Sepeda Motor Roda Dua Indonesia";
         if ($vehicle) {
@@ -36,7 +34,6 @@ class GeminiVisionService
         }
 
         // System prompt yang terkunci ketat (Domain-Locked Guardrails)
-        // Mencegah eksploitasi di luar speedometer dan menghemat token output secara ketat.
         $systemInstruction = <<<TEXT
 Kamu adalah SERVISA AI Vision Inspector khusus panel speedometer/dashboard sepeda motor di Indonesia.
 Konteks Kendaraan: {$vehicleContext}.
@@ -65,77 +62,58 @@ JAWAB HANYA DALAM FORMAT JSON BERSIH TANPA MARKDOWN BACKTICK (```json):
 }
 TEXT;
 
-        try {
-            $response = Http::timeout(25)->post($endpoint, [
-                'systemInstruction' => [
+        $payload = [
+            'systemInstruction' => [
+                'parts' => [
+                    ['text' => $systemInstruction]
+                ]
+            ],
+            'contents' => [
+                [
                     'parts' => [
-                        ['text' => $systemInstruction]
-                    ]
-                ],
-                'contents' => [
-                    [
-                        'parts' => [
-                            [
-                                'inline_data' => [
-                                    'mime_type' => $mimeType,
-                                    'data' => $base64Image
-                                ]
-                            ],
-                            [
-                                'text' => 'Analisis instrumen speedometer motor ini sekarang sesuai instruksi sistem. Output JSON only.'
+                        [
+                            'inline_data' => [
+                                'mime_type' => $mimeType,
+                                'data' => $base64Image
                             ]
+                        ],
+                        [
+                            'text' => 'Analisis instrumen speedometer motor ini sekarang sesuai instruksi sistem. Output JSON only.'
                         ]
                     ]
-                ],
-                'generationConfig' => [
-                    'temperature' => 0.1,
-                    'maxOutputTokens' => 400,
-                    'responseMimeType' => 'application/json'
                 ]
-            ]);
+            ],
+            'generationConfig' => [
+                'temperature' => 0.1,
+                'maxOutputTokens' => 400,
+                'responseMimeType' => 'application/json'
+            ]
+        ];
 
-            if ($response->successful()) {
-                $result = $response->json();
-                $rawText = $result['candidates'][0]['content']['parts'][0]['text'] ?? '';
-                
-                // Bersihkan Markdown backtick jika model menyertakannya
-                $cleanedText = trim($rawText);
-                $cleanedText = preg_replace('/^```(?:json)?\s*/i', '', $cleanedText);
-                $cleanedText = preg_replace('/\s*```$/i', '', $cleanedText);
-                
-                $data = json_decode($cleanedText, true);
-
-                if (is_array($data)) {
-                    // Normalisasi pemisah baris emergency_action jika AI mengembalikan dalam 1 baris
-                    if (!empty($data['emergency_action'])) {
-                        $action = $data['emergency_action'];
-                        // Ubah ' 2. ' dan ' 3. ' menjadi baris baru jika tidak ada newline
-                        if (!str_contains($action, "\n")) {
-                            $action = preg_replace('/\s*([1-9]\.)\s*/', "\n$1 ", $action);
-                            $data['emergency_action'] = trim($action);
-                        }
-                    }
-
-                    return array_merge([
-                        'is_valid_speedometer' => true,
-                        'rejection_reason' => null,
-                        'detected_odometer' => null,
-                        'detected_indicator' => 'Indikator Normal',
-                        'severity_level' => 'INFO',
-                        'emergency_action' => 'Kondisi indikator normal. Lakukan servis berkala sesuai jadwal.',
-                        'estimated_cost_min' => 0,
-                        'estimated_cost_max' => 0,
-                    ], $data);
+        $data = $this->requestGeminiJson($payload);
+        if (is_array($data)) {
+            // Normalisasi pemisah baris emergency_action jika AI mengembalikan dalam 1 baris
+            if (!empty($data['emergency_action'])) {
+                $action = $data['emergency_action'];
+                if (!str_contains($action, "\n")) {
+                    $action = preg_replace('/\s*([1-9]\.)\s*/', "\n$1 ", $action);
+                    $data['emergency_action'] = trim($action);
                 }
             }
 
-            Log::warning('Gemini API Non-Success Response', ['status' => $response->status(), 'body' => $response->body()]);
-            return $this->fallbackAnalysis();
-
-        } catch (\Exception $e) {
-            Log::error('Gemini Vision Service Exception: ' . $e->getMessage());
-            return $this->fallbackAnalysis();
+            return array_merge([
+                'is_valid_speedometer' => true,
+                'rejection_reason' => null,
+                'detected_odometer' => null,
+                'detected_indicator' => 'Indikator Normal',
+                'severity_level' => 'INFO',
+                'emergency_action' => 'Kondisi indikator normal. Lakukan servis berkala sesuai jadwal.',
+                'estimated_cost_min' => 0,
+                'estimated_cost_max' => 0,
+            ], $data);
         }
+
+        return $this->fallbackAnalysis();
     }
 
     /**
@@ -201,62 +179,92 @@ Format output WAJIB HANYA berupa JSON murni tanpa markdown/penjelasan:
 }
 TEXT;
 
-        try {
-            $payload = [
-                'contents' => [
-                    [
-                        'role' => 'user',
-                        'parts' => [
-                            ['text' => $systemInstruction],
-                            [
-                                'inlineData' => [
-                                    'mimeType' => $mimeType,
-                                    'data' => $base64Image,
-                                ]
+        $payload = [
+            'contents' => [
+                [
+                    'role' => 'user',
+                    'parts' => [
+                        ['text' => $systemInstruction],
+                        [
+                            'inlineData' => [
+                                'mimeType' => $mimeType,
+                                'data' => $base64Image,
                             ]
                         ]
                     ]
-                ],
-                'generationConfig' => [
-                    'temperature' => 0.1,
-                    'topP' => 0.8,
-                    'topK' => 40,
-                    'maxOutputTokens' => 1024,
-                    'responseMimeType' => 'application/json',
                 ]
-            ];
+            ],
+            'generationConfig' => [
+                'temperature' => 0.1,
+                'topP' => 0.8,
+                'topK' => 40,
+                'maxOutputTokens' => 1024,
+                'responseMimeType' => 'application/json',
+            ]
+        ];
 
-            $response = Http::withHeaders(['Content-Type' => 'application/json'])
-                ->timeout(25)
-                ->post($endpoint, $payload);
-
-            if ($response->successful()) {
-                $candidates = $response->json('candidates');
-                $rawText = $candidates[0]['content']['parts'][0]['text'] ?? '{}';
-                $cleanJson = trim(preg_replace('/^```(?:json)?\s*|\s*```$/m', '', $rawText));
-                $data = json_decode($cleanJson, true);
-
-                if (json_last_error() === JSON_ERROR_NONE && is_array($data)) {
-                    return array_merge([
-                        'is_valid_receipt' => true,
-                        'rejection_reason' => null,
-                        'workshop_name' => 'Bengkel Motor',
-                        'service_date' => now()->format('Y-m-d'),
-                        'odometer_km' => null,
-                        'items' => [],
-                        'total_cost' => 0,
-                        'notes' => null,
-                    ], $data);
-                }
-            }
-
-            Log::warning('Gemini Receipt API Non-Success Response', ['status' => $response->status(), 'body' => $response->body()]);
-            return $this->fallbackReceiptAnalysis();
-
-        } catch (\Exception $e) {
-            Log::error('Gemini Receipt Vision Exception: ' . $e->getMessage());
-            return $this->fallbackReceiptAnalysis();
+        $data = $this->requestGeminiJson($payload);
+        if (is_array($data)) {
+            return array_merge([
+                'is_valid_receipt' => true,
+                'rejection_reason' => null,
+                'workshop_name' => 'Bengkel Motor',
+                'service_date' => now()->format('Y-m-d'),
+                'odometer_km' => null,
+                'items' => [],
+                'total_cost' => 0,
+                'notes' => null,
+            ], $data);
         }
+
+        return $this->fallbackReceiptAnalysis();
+    }
+
+    /**
+     * Send a request to Gemini API with automatic model fallback on 404/429/5xx errors.
+     */
+    protected function requestGeminiJson(array $payload): ?array
+    {
+        $models = array_values(array_unique([
+            $this->model,
+            'gemini-2.5-flash',
+            'gemini-2.5-flash-lite',
+        ]));
+
+        foreach ($models as $model) {
+            $endpoint = "https://generativelanguage.googleapis.com/v1beta/models/{$model}:generateContent?key={$this->apiKey}";
+
+            try {
+                $response = Http::withHeaders(['Content-Type' => 'application/json'])
+                    ->timeout(25)
+                    ->post($endpoint, $payload);
+
+                if ($response->successful()) {
+                    $rawText = $response->json('candidates.0.content.parts.0.text', '');
+                    $cleaned = trim(preg_replace('/^```(?:json)?\s*|\s*```$/m', '', $rawText));
+                    $data = json_decode($cleaned, true);
+
+                    if (json_last_error() === JSON_ERROR_NONE && is_array($data)) {
+                        return $data;
+                    }
+                }
+
+                Log::warning('Gemini API Non-Success Response', [
+                    'model' => $model,
+                    'status' => $response->status(),
+                    'body' => $response->body(),
+                ]);
+
+                // Only retry next model on transient/model availability errors
+                if (!in_array($response->status(), [404, 429, 500, 502, 503, 504], true)) {
+                    break;
+                }
+            } catch (\Exception $e) {
+                Log::error("Gemini Vision Service Exception ({$model}): " . $e->getMessage());
+            }
+        }
+
+        return null;
     }
 
     /**

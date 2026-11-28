@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\AiScanHistory;
 use App\Models\Vehicle;
-use App\Services\FonnteService;
 use App\Services\GeminiVisionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -102,16 +101,6 @@ class DiagnosaController extends Controller
             'estimated_cost_max' => $analysis['estimated_cost_max'] ?? 0,
             'is_resolved' => false,
         ]);
-
-        // Kirim peringatan darurat ke WhatsApp jika AI mendeteksi tingkat keparahan CRITICAL
-        $user = Auth::user();
-        if (($scan->severity_level === 'CRITICAL') && $user?->canReceiveWhatsAppNotifications()) {
-            $fonnte = app(FonnteService::class);
-            if ($fonnte->isConfigured()) {
-                $msg = "*SERVISA - Peringatan Darurat AI Vision*\nHalo " . (explode(' ', $user->name)[0] ?: 'Rider') . ",\nTerdeteksi indikator *CRITICAL* pada *{$vehicle->brand} {$vehicle->model_name}*:\n- Indikator: *{$scan->detected_indicator}*\n\n*Protokol Darurat:*\n{$scan->emergency_action}\n\nCek hasil lengkap: " . route('diagnosa');
-                $fonnte->sendMessage($user->phone_whatsapp, $msg);
-            }
-        }
 
         return back()->with([
             'success' => 'Pemindaian speedometer berhasil dianalisis oleh AI!',
