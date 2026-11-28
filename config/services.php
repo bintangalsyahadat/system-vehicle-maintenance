@@ -40,4 +40,9 @@ return [
         'model' => env('GEMINI_MODEL', 'gemini-3.1-flash-lite'),
     ],
 
+    'fonnte' => [
+        'token' => env('FONNTE_TOKEN'),
+        'base_url' => env('FONNTE_BASE_URL', 'https://api.fonnte.com'),
+    ],
+
 ];

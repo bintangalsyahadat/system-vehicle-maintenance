@@ -188,11 +188,128 @@
                     </svg>
                 </button>
 
-                <!-- Notifikasi Bell -->
-                <button class="relative p-2.5 rounded-2xl bg-white dark:bg-[#1E293B] hover:bg-slate-50 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm text-slate-600 dark:text-slate-300 transition flex-shrink-0">
-                    <i data-lucide="bell" class="w-4 h-4"></i>
-                    <span class="absolute top-2 right-2 w-2 h-2 bg-brand-main rounded-full"></span>
-                </button>
+                <!-- Notifikasi Bell (Web In-App + Integrasi WhatsApp Fonnte) -->
+                <div class="relative flex-shrink-0"
+                     x-data="{
+                        notifOpen: false,
+                        sendingWa: false,
+                        waStatus: null,
+                        waMessage: '',
+                        sendWhatsAppReminder() {
+                            this.sendingWa = true;
+                            this.waStatus = null;
+                            this.waMessage = '';
+                            fetch('{{ route('notifications.sendWhatsApp') }}', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                    'Accept': 'application/json'
+                                }
+                            })
+                            .then(res => res.json())
+                            .then(data => {
+                                this.sendingWa = false;
+                                this.waStatus = data.success ? 'success' : 'error';
+                                this.waMessage = data.message || (data.success ? 'Terkirim ke WhatsApp!' : 'Gagal mengirim ke WhatsApp.');
+                            })
+                            .catch(() => {
+                                this.sendingWa = false;
+                                this.waStatus = 'error';
+                                this.waMessage = 'Gagal menghubungi server saat mengirim WhatsApp.';
+                            });
+                        }
+                     }">
+                    <button type="button"
+                            @click="notifOpen = !notifOpen"
+                            class="relative p-2.5 rounded-2xl bg-white dark:bg-[#1E293B] hover:bg-slate-50 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm text-slate-600 dark:text-slate-300 transition flex-shrink-0"
+                            title="Notifikasi & Pengingat Servis">
+                        <i data-lucide="bell" class="w-4 h-4"></i>
+                        @if(($unreadNotificationCount ?? 0) > 0)
+                            <span class="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-brand-main text-white text-[10px] font-black flex items-center justify-center shadow-sm">
+                                {{ $unreadNotificationCount > 9 ? '9+' : $unreadNotificationCount }}
+                            </span>
+                        @endif
+                    </button>
+
+                    <!-- Dropdown Panel Notifikasi -->
+                    <div x-show="notifOpen"
+                         @click.outside="notifOpen = false"
+                         x-cloak
+                         class="absolute right-0 mt-2 w-80 sm:w-96 bg-white dark:bg-[#1E293B] rounded-3xl shadow-2xl border border-slate-100 dark:border-slate-700/80 overflow-hidden z-50">
+                        <!-- Header Panel -->
+                        <div class="px-4 py-3.5 border-b border-slate-100 dark:border-slate-700/80 flex items-center justify-between bg-slate-50/70 dark:bg-slate-900/50">
+                            <div>
+                                <h4 class="text-xs font-extrabold text-slate-800 dark:text-white">Notifikasi & Pengingat</h4>
+                                <p class="text-[10px] text-slate-500 dark:text-slate-400">
+                                    @if(Auth::user()?->phone_whatsapp)
+                                        WA Terhubung: <span class="font-semibold text-emerald-600 dark:text-emerald-400">{{ Auth::user()->phone_whatsapp }}</span>
+                                    @else
+                                        <a href="{{ route('profile.edit') }}" class="text-brand-main dark:text-brand-accent font-semibold hover:underline">Lengkapi No. WhatsApp di Profil</a>
+                                    @endif
+                                </p>
+                            </div>
+                            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-brand-secondary/40 dark:bg-brand-main/25 text-brand-main dark:text-brand-accent">
+                                {{ $unreadNotificationCount ?? 0 }} Aktif
+                            </span>
+                        </div>
+
+                        <!-- Daftar Notifikasi -->
+                        <div class="max-h-72 overflow-y-auto divide-y divide-slate-100 dark:divide-slate-700/60">
+                            @forelse(($webNotifications ?? collect()) as $notif)
+                                <div class="p-3.5 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition flex items-start justify-between gap-2.5">
+                                    <a href="{{ $notif->url }}" class="flex items-start space-x-2.5 flex-1 min-w-0">
+                                        <div class="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5 {{ $notif->level === 'critical' ? 'bg-rose-50 dark:bg-rose-950/50 text-rose-500' : 'bg-amber-50 dark:bg-amber-950/50 text-amber-500' }}">
+                                            <i data-lucide="{{ $notif->type === 'ai_scan' ? 'scan' : ($notif->level === 'critical' ? 'alert-triangle' : 'clock') }}" class="w-4 h-4"></i>
+                                        </div>
+                                        <div class="min-w-0 flex-1">
+                                            <p class="text-xs font-bold text-slate-800 dark:text-white truncate">{{ $notif->title }}</p>
+                                            <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 leading-snug">{{ $notif->message }}</p>
+                                            <span class="inline-block mt-1 text-[10px] font-semibold {{ $notif->level === 'critical' ? 'text-rose-600 dark:text-rose-400' : 'text-amber-600 dark:text-amber-400' }}">
+                                                {{ $notif->time_label }}
+                                            </span>
+                                        </div>
+                                    </a>
+                                    @if($notif->can_snooze && $notif->reminder_id)
+                                        <form action="{{ route('notifications.snooze', $notif->reminder_id) }}" method="POST" class="flex-shrink-0">
+                                            @csrf
+                                            <button type="submit"
+                                                    class="px-2 py-1 rounded-lg text-[10px] font-semibold text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition"
+                                                    title="Tunda pengingat ini">
+                                                Tunda
+                                            </button>
+                                        </form>
+                                    @endif
+                                </div>
+                            @empty
+                                <div class="p-6 text-center space-y-2">
+                                    <div class="w-10 h-10 rounded-full bg-emerald-50 dark:bg-emerald-950/40 text-emerald-500 flex items-center justify-center mx-auto">
+                                        <i data-lucide="check-circle-2" class="w-5 h-5"></i>
+                                    </div>
+                                    <p class="text-xs font-bold text-slate-700 dark:text-slate-200">Semua Kondisi Prima</p>
+                                    <p class="text-[11px] text-slate-400">Belum ada pengingat servis yang mendesak saat ini.</p>
+                                </div>
+                            @endforelse
+                        </div>
+
+                        <!-- Feedback Status Kirim WhatsApp -->
+                        <div x-show="waMessage" x-cloak class="px-4 py-2.5 text-[11px] font-semibold border-t border-slate-100 dark:border-slate-700/80"
+                             :class="waStatus === 'success' ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300' : 'bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-300'">
+                            <span x-text="waMessage"></span>
+                        </div>
+
+                        <!-- Footer Action: Kirim ke WhatsApp (Fonnte) -->
+                        <div class="p-3 bg-slate-50/80 dark:bg-slate-900/60 border-t border-slate-100 dark:border-slate-700/80">
+                            <button type="button"
+                                    @click="sendWhatsAppReminder()"
+                                    :disabled="sendingWa"
+                                    class="w-full py-2.5 px-4 rounded-2xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-60 text-white text-xs font-bold flex items-center justify-center space-x-2 shadow-sm transition">
+                                <i data-lucide="message-circle" class="w-4 h-4"></i>
+                                <span x-text="sendingWa ? 'Mengirim ke WhatsApp...' : 'Kirim Pengingat ke WhatsApp'"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- Profile Dropdown -->
                 <div class="relative flex-shrink-0" x-data="{ profileOpen: false }">

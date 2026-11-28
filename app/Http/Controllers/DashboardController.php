@@ -6,6 +6,7 @@ use App\Models\MaintenanceItem;
 use App\Models\ServiceLog;
 use App\Models\ServiceReminder;
 use App\Models\Vehicle;
+use App\Services\FonnteService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -190,7 +191,7 @@ class DashboardController extends Controller
             ->where('user_id', Auth::id())
             ->firstOrFail();
 
-        ServiceReminder::updateOrCreate(
+        $reminder = ServiceReminder::updateOrCreate(
             [
                 'vehicle_id' => $vehicle->id,
                 'maintenance_item_id' => $validated['maintenance_item_id'],
@@ -199,8 +200,24 @@ class DashboardController extends Controller
                 'scheduled_date' => $validated['scheduled_date'],
                 'custom_km' => $validated['custom_km'] ?? null,
                 'status' => 'pending',
+                'is_snoozed' => false,
             ]
         );
+
+        // Kirim notifikasi WhatsApp otomatis jika jadwal pengingat hari ini / besok
+        $user = Auth::user();
+        $dueDate = Carbon::parse($validated['scheduled_date'])->startOfDay();
+        if ($user?->phone_whatsapp && $dueDate->lte(now()->addDay()->startOfDay())) {
+            $fonnte = app(FonnteService::class);
+            if ($fonnte->isConfigured()) {
+                $item = MaintenanceItem::find($validated['maintenance_item_id']);
+                $msg = "*SERVISA - Pengingat Jadwal Servis*\nHalo " . (explode(' ', $user->name)[0] ?: 'Rider') . ",\nAnda menjadwalkan servis *{$item?->item_name}* untuk *{$vehicle->brand} {$vehicle->model_name}* pada tanggal *" . $dueDate->translatedFormat('d F Y') . "*.\n\nLihat detail: " . route('dashboard');
+                $res = $fonnte->sendMessage($user->phone_whatsapp, $msg);
+                if ($res['success']) {
+                    $reminder->update(['last_notified_at' => now()]);
+                }
+            }
+        }
 
         return back()->with('success', 'Jadwal servis berhasil diperbarui!');
     }
