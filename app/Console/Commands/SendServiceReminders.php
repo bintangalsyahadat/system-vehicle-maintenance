@@ -36,6 +36,8 @@ class SendServiceReminders extends Command
 
         $users = User::whereNotNull('phone_whatsapp')
             ->where('phone_whatsapp', '!=', '')
+            ->whereNotNull('whatsapp_verified_at')
+            ->where('whatsapp_notifications_enabled', true)
             ->get();
 
         $sentCount = 0;

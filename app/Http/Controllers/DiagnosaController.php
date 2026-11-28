@@ -105,7 +105,7 @@ class DiagnosaController extends Controller
 
         // Kirim peringatan darurat ke WhatsApp jika AI mendeteksi tingkat keparahan CRITICAL
         $user = Auth::user();
-        if (($scan->severity_level === 'CRITICAL') && $user?->phone_whatsapp) {
+        if (($scan->severity_level === 'CRITICAL') && $user?->canReceiveWhatsAppNotifications()) {
             $fonnte = app(FonnteService::class);
             if ($fonnte->isConfigured()) {
                 $msg = "*SERVISA - Peringatan Darurat AI Vision*\nHalo " . (explode(' ', $user->name)[0] ?: 'Rider') . ",\nTerdeteksi indikator *CRITICAL* pada *{$vehicle->brand} {$vehicle->model_name}*:\n- Indikator: *{$scan->detected_indicator}*\n\n*Protokol Darurat:*\n{$scan->emergency_action}\n\nCek hasil lengkap: " . route('diagnosa');

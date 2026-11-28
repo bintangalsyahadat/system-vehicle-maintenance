@@ -207,7 +207,7 @@ class DashboardController extends Controller
         // Kirim notifikasi WhatsApp otomatis jika jadwal pengingat hari ini / besok
         $user = Auth::user();
         $dueDate = Carbon::parse($validated['scheduled_date'])->startOfDay();
-        if ($user?->phone_whatsapp && $dueDate->lte(now()->addDay()->startOfDay())) {
+        if ($user?->canReceiveWhatsAppNotifications() && $dueDate->lte(now()->addDay()->startOfDay())) {
             $fonnte = app(FonnteService::class);
             if ($fonnte->isConfigured()) {
                 $item = MaintenanceItem::find($validated['maintenance_item_id']);

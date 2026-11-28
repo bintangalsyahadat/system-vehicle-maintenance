@@ -188,38 +188,8 @@
                     </svg>
                 </button>
 
-                <!-- Notifikasi Bell (Web In-App + Integrasi WhatsApp Fonnte) -->
-                <div class="relative flex-shrink-0"
-                     x-data="{
-                        notifOpen: false,
-                        sendingWa: false,
-                        waStatus: null,
-                        waMessage: '',
-                        sendWhatsAppReminder() {
-                            this.sendingWa = true;
-                            this.waStatus = null;
-                            this.waMessage = '';
-                            fetch('{{ route('notifications.sendWhatsApp') }}', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                                    'Accept': 'application/json'
-                                }
-                            })
-                            .then(res => res.json())
-                            .then(data => {
-                                this.sendingWa = false;
-                                this.waStatus = data.success ? 'success' : 'error';
-                                this.waMessage = data.message || (data.success ? 'Terkirim ke WhatsApp!' : 'Gagal mengirim ke WhatsApp.');
-                            })
-                            .catch(() => {
-                                this.sendingWa = false;
-                                this.waStatus = 'error';
-                                this.waMessage = 'Gagal menghubungi server saat mengirim WhatsApp.';
-                            });
-                        }
-                     }">
+                <!-- Notifikasi Bell (Web In-App) -->
+                <div class="relative flex-shrink-0" x-data="{ notifOpen: false }">
                     <button type="button"
                             @click="notifOpen = !notifOpen"
                             class="relative p-2.5 rounded-2xl bg-white dark:bg-[#1E293B] hover:bg-slate-50 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm text-slate-600 dark:text-slate-300 transition flex-shrink-0"
@@ -242,10 +212,10 @@
                             <div>
                                 <h4 class="text-xs font-extrabold text-slate-800 dark:text-white">Notifikasi & Pengingat</h4>
                                 <p class="text-[10px] text-slate-500 dark:text-slate-400">
-                                    @if(Auth::user()?->phone_whatsapp)
-                                        WA Terhubung: <span class="font-semibold text-emerald-600 dark:text-emerald-400">{{ Auth::user()->phone_whatsapp }}</span>
+                                    @if(Auth::user()?->canReceiveWhatsAppNotifications())
+                                        Notif WA: <span class="font-semibold text-emerald-600 dark:text-emerald-400">Aktif ({{ Auth::user()->phone_whatsapp }})</span>
                                     @else
-                                        <a href="{{ route('profile.edit') }}" class="text-brand-main dark:text-brand-accent font-semibold hover:underline">Lengkapi No. WhatsApp di Profil</a>
+                                        <a href="{{ route('profile.edit') }}" class="text-brand-main dark:text-brand-accent font-semibold hover:underline">Aktifkan & Verifikasi WA di Profil</a>
                                     @endif
                                 </p>
                             </div>
@@ -290,23 +260,6 @@
                                     <p class="text-[11px] text-slate-400">Belum ada pengingat servis yang mendesak saat ini.</p>
                                 </div>
                             @endforelse
-                        </div>
-
-                        <!-- Feedback Status Kirim WhatsApp -->
-                        <div x-show="waMessage" x-cloak class="px-4 py-2.5 text-[11px] font-semibold border-t border-slate-100 dark:border-slate-700/80"
-                             :class="waStatus === 'success' ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300' : 'bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-300'">
-                            <span x-text="waMessage"></span>
-                        </div>
-
-                        <!-- Footer Action: Kirim ke WhatsApp (Fonnte) -->
-                        <div class="p-3 bg-slate-50/80 dark:bg-slate-900/60 border-t border-slate-100 dark:border-slate-700/80">
-                            <button type="button"
-                                    @click="sendWhatsAppReminder()"
-                                    :disabled="sendingWa"
-                                    class="w-full py-2.5 px-4 rounded-2xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-60 text-white text-xs font-bold flex items-center justify-center space-x-2 shadow-sm transition">
-                                <i data-lucide="message-circle" class="w-4 h-4"></i>
-                                <span x-text="sendingWa ? 'Mengirim ke WhatsApp...' : 'Kirim Pengingat ke WhatsApp'"></span>
-                            </button>
                         </div>
                     </div>
                 </div>
